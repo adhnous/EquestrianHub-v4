@@ -7,8 +7,8 @@ const getAuthToken = () => {
 const api = axios.create({
   baseURL: 'http://localhost:5000/api',
   headers: {
-    'Content-Type': 'application/json'
-  }
+    'Content-Type': 'application/json',
+  },
 });
 
 // Add a request interceptor to include the auth token
@@ -22,7 +22,7 @@ api.interceptors.request.use(
       url: config.url,
       method: config.method,
       headers: config.headers,
-      data: config.data
+      data: config.data,
     });
     return config;
   },
@@ -38,7 +38,7 @@ api.interceptors.response.use(
     console.log('Response:', {
       url: response.config.url,
       status: response.status,
-      data: response.data
+      data: response.data,
     });
     return response;
   },
@@ -47,7 +47,7 @@ api.interceptors.response.use(
       url: error.config?.url,
       status: error.response?.status,
       message: error.response?.data?.message || error.message,
-      data: error.response?.data
+      data: error.response?.data,
     });
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
@@ -63,15 +63,15 @@ const login = async (credentials) => {
     console.log('Login attempt with:', credentials);
     const response = await api.post('/login', {
       email: credentials.username,
-      password: credentials.password
+      password: credentials.password,
     });
-    
+
     if (response.data.success && response.data.token) {
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('user', JSON.stringify(response.data.user));
     }
-    
-    return response;
+
+    return response.data;
   } catch (error) {
     console.error('Login error:', error);
     throw error;
@@ -90,7 +90,7 @@ const createTrainingClass = (data) => api.post('/training-classes', data);
 const updateTrainingClass = (id, data) => api.put(`/training-classes/${id}`, data);
 const deleteTrainingClass = (id) => api.delete(`/training-classes/${id}`);
 const enrollInClass = (id, data) => api.post(`/training-classes/${id}/enroll`, data);
-const updateSessionAttendance = (classId, sessionId, data) => 
+const updateSessionAttendance = (classId, sessionId, data) =>
   api.put(`/training-classes/${classId}/sessions/${sessionId}/attendance`, data);
 const updateSession = (classId, sessionId, data) =>
   api.put(`/training-classes/${classId}/sessions/${sessionId}`, data);
@@ -118,26 +118,58 @@ const createTrainer = (data) => api.post('/trainers', data);
 const updateTrainer = (id, data) => api.put(`/trainers/${id}`, data);
 const deleteTrainer = (id) => api.delete(`/trainers/${id}`);
 
-// Horse endpoints
-const getHorses = () => {
-  return api.get('/horses');
+// Horse endpoints - CRUD operations
+const getHorses = async () => {
+  try {
+    const response = await api.get('/horses'); // Use `api` instance
+    console.log('API Response:', response.data); // Debug log full data
+    return response.data.data; // Extract and return the `data` array
+  } catch (error) {
+    console.error('Error fetching horses:', error);
+    throw error;
+  }
 };
 
-const getHorse = (id) => {
-  return api.get(`/horses/${id}`);
+const fetchHorseById = async (horseId) => {
+  try {
+    const { data } = await api.get(`/horses/${horseId}`);
+    return data;
+  } catch (error) {
+    console.error('Error fetching horse:', error);
+    throw error;
+  }
 };
 
-const createHorse = (data) => {
-  return api.post('/horses', data);
+const createHorse = async (horseData) => {
+  try {
+    const { data } = await api.post('/horses', horseData);
+    return data;
+  } catch (error) {
+    console.error('Error creating horse:', error);
+    throw error;
+  }
 };
 
-const updateHorse = (id, data) => {
-  return api.put(`/horses/${id}`, data);
+const updateHorseById = async (horseId, horseData) => {
+  try {
+    const response = await api.put(`/horses/${horseId}`, horseData);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-const deleteHorse = (id) => {
-  return api.delete(`/horses/${id}`);
+const deleteHorseById = async (horseId) => {
+  try {
+    const response = await api.delete(`/horses/${horseId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error deleting horse ${horseId}:`, error);
+    throw error;
+  }
 };
+
+// Export CRUD operations
 
 // Profile endpoints
 const getProfile = () => api.get('/auth/profile');
@@ -173,11 +205,12 @@ export {
   updateTrainer,
   deleteTrainer,
   getHorses,
-  getHorse,
   createHorse,
-  updateHorse,
-  deleteHorse,
+  fetchHorseById,
+  updateHorseById,
+  deleteHorseById,  
   getProfile,
   updateProfile,
   changePassword,
 };
+

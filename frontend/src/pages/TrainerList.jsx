@@ -20,6 +20,8 @@ import {
   Select,
   MenuItem,
   CircularProgress,
+  Stack,
+  CardActions,
 } from '@mui/material';
 import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
@@ -27,28 +29,37 @@ import { getTrainers, createTrainer, updateTrainer, deleteTrainer } from '../ser
 
 const TrainerList = () => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
+
   const [open, setOpen] = useState(false);
   const [selectedTrainer, setSelectedTrainer] = useState(null);
+
+  // Form data for create/edit
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
-    password: '',
+    password: '',  // Only used when creating a new trainer
     gender: 'male',
     specialization: 'general',
     certifications: [],
-    status: 'active'
+    status: 'active',
   });
 
-  const queryClient = useQueryClient();
-
-  const { data: trainersResponse, isLoading } = useQuery('trainers', async () => {
-    const response = await getTrainers();
-    return response.data;
+  // Fetch list of trainers via React Query
+  const {
+    data: trainersResponse,
+    isLoading,
+    error: queryError,
+  } = useQuery('trainers', async () => {
+    const response = await getTrainers(); // Axios call
+    return response.data;                // { success, trainers: [...], etc. }
   });
 
+  // If successful, we can access trainers via: trainersResponse?.trainers
   const trainers = trainersResponse?.trainers || [];
 
+  // CREATE trainer mutation
   const createTrainerMutation = useMutation(
     (newTrainer) => createTrainer(newTrainer),
     {
@@ -59,6 +70,7 @@ const TrainerList = () => {
     }
   );
 
+  // UPDATE trainer mutation
   const updateTrainerMutation = useMutation(
     (updatedTrainer) => updateTrainer(updatedTrainer._id, updatedTrainer),
     {
@@ -69,6 +81,7 @@ const TrainerList = () => {
     }
   );
 
+  // DELETE trainer mutation
   const deleteTrainerMutation = useMutation(
     (trainerId) => deleteTrainer(trainerId),
     {
@@ -78,22 +91,39 @@ const TrainerList = () => {
     }
   );
 
+  // Open dialog for Add or Edit
   const handleOpen = (trainer = null) => {
     if (trainer) {
+      // Editing an existing trainer
       setSelectedTrainer(trainer);
       setFormData({
         name: trainer.name,
         email: trainer.email,
         phone: trainer.phone,
+        password: '', // We do NOT show password on edit
         gender: trainer.gender,
         specialization: trainer.specialization,
         certifications: trainer.certifications || [],
-        status: trainer.status
+        status: trainer.status,
+      });
+    } else {
+      // Adding a new trainer
+      setSelectedTrainer(null);
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        password: '',
+        gender: 'male',
+        specialization: 'general',
+        certifications: [],
+        status: 'active',
       });
     }
     setOpen(true);
   };
 
+  // Close dialog and reset state
   const handleClose = () => {
     setOpen(false);
     setSelectedTrainer(null);
@@ -105,60 +135,79 @@ const TrainerList = () => {
       gender: 'male',
       specialization: 'general',
       certifications: [],
-      status: 'active'
+      status: 'active',
     });
   };
 
-  const handleSubmit = async (e) => {
+  // Handle form submission
+  const handleSubmit = (e) => {
     e.preventDefault();
     if (selectedTrainer) {
+      // Update existing trainer
       updateTrainerMutation.mutate({ ...formData, _id: selectedTrainer._id });
     } else {
+      // Create new trainer (includes password)
       createTrainerMutation.mutate(formData);
     }
   };
 
+  // Delete trainer
   const handleDelete = (trainerId) => {
     if (window.confirm(t('common.confirmDelete'))) {
       deleteTrainerMutation.mutate(trainerId);
     }
   };
 
+  // Handle loading & error states
   if (isLoading) {
     return (
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center',
-        minHeight: '200px'
-      }}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          minHeight: '200px',
+        }}
+      >
         <CircularProgress />
       </Box>
     );
   }
 
+  if (queryError) {
+    return (
+      <Box sx={{ p: 3 }}>
+        <Alert severity="error">{queryError.message || t('errors.somethingWentWrong')}</Alert>
+      </Box>
+    );
+  }
+
   return (
-    <Box sx={{ 
-      p: 4,
-      maxWidth: '1200px',
-      margin: '0 auto'
-    }}>
+    <Box
+      sx={{
+        p: 4,
+        maxWidth: '1200px',
+        margin: '0 auto',
+      }}
+    >
       {/* Header */}
-      <Box sx={{ 
-        display: 'flex', 
-        justifyContent: 'space-between', 
-        alignItems: 'center',
-        mb: 4,
-        pb: 2,
-        borderBottom: '1px solid',
-        borderColor: 'divider'
-      }}>
-        <Typography 
-          variant="h4" 
-          component="h1" 
-          sx={{ 
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          mb: 4,
+          pb: 2,
+          borderBottom: '1px solid',
+          borderColor: 'divider',
+        }}
+      >
+        <Typography
+          variant="h4"
+          component="h1"
+          sx={{
             fontWeight: 600,
-            color: 'primary.main'
+            color: 'primary.main',
           }}
         >
           {t('common.trainers')}
@@ -172,7 +221,7 @@ const TrainerList = () => {
             px: 3,
             py: 1,
             textTransform: 'none',
-            fontSize: '1rem'
+            fontSize: '1rem',
           }}
         >
           {t('trainer.addTrainer')}
@@ -181,57 +230,62 @@ const TrainerList = () => {
 
       {/* Trainer Grid */}
       <Grid container spacing={3}>
-        {trainers && trainers.length > 0 ? (
+        {trainers.length > 0 ? (
           trainers.map((trainer) => (
             <Grid item xs={12} sm={12} md={6} key={trainer._id}>
-              <Card sx={{ 
-                height: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                borderRadius: '12px',
-                boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
-                transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-                '&:hover': {
-                  transform: 'translateY(-4px)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.12)'
-                }
-              }}>
-                <CardContent sx={{ 
-                  p: 3,
-                  flexGrow: 1,
+              <Card
+                sx={{
+                  height: '100%',
                   display: 'flex',
-                  flexDirection: 'column'
-                }}>
+                  flexDirection: 'column',
+                  borderRadius: '12px',
+                  boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
+                  transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                  '&:hover': {
+                    transform: 'translateY(-4px)',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
+                  },
+                }}
+              >
+                <CardContent
+                  sx={{
+                    p: 3,
+                    flexGrow: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                  }}
+                >
                   <Box sx={{ mb: 2 }}>
                     <Typography variant="h6" gutterBottom>
                       {trainer.name}
                     </Typography>
-                    <Typography color="text.secondary">
-                      {trainer.email}
-                    </Typography>
-                    <Typography color="text.secondary">
-                      {trainer.phone}
-                    </Typography>
+                    <Typography color="text.secondary">{trainer.email}</Typography>
+                    <Typography color="text.secondary">{trainer.phone}</Typography>
                   </Box>
 
+                  {/* Chips for specialization, gender, and status */}
                   <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 2 }}>
-                    <Chip 
-                      label={t(`trainer.specializations.${trainer.specialization}`)} 
-                      color="primary" 
+                    {/* For specialization, reference sub-key to get a string */}
+                    <Chip
+                      label={t(`trainer.specializations.${trainer.specialization}`)}
+                      color="primary"
                       size="small"
                     />
-                    <Chip 
-                      label={t(`common.gender.${trainer.gender}`)} 
-                      color="secondary" 
+                    {/* Gender chip */}
+                    <Chip
+                      label={t(`common.gender.${trainer.gender}`)}
+                      color="secondary"
                       size="small"
                     />
-                    <Chip 
-                      label={t(`common.${trainer.status}`)} 
-                      color={trainer.status === 'active' ? 'success' : 'default'} 
+                    {/* Status chip */}
+                    <Chip
+                      label={t(`common.${trainer.status}`)}
+                      color={trainer.status === 'active' ? 'success' : 'default'}
                       size="small"
                     />
                   </Box>
 
+                  {/* Certifications (optional array) */}
                   {trainer.certifications && trainer.certifications.length > 0 && (
                     <Box sx={{ mb: 2 }}>
                       <Typography variant="subtitle2" gutterBottom>
@@ -239,58 +293,41 @@ const TrainerList = () => {
                       </Typography>
                       <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                         {trainer.certifications.map((cert, index) => (
-                          <Chip 
-                            key={index} 
-                            label={cert} 
-                            variant="outlined" 
-                            size="small"
-                          />
+                          <Chip key={index} label={cert} variant="outlined" size="small" />
                         ))}
                       </Box>
                     </Box>
                   )}
-
-                  <Box sx={{ 
-                    mt: 'auto', 
-                    display: 'flex', 
-                    justifyContent: 'flex-end',
-                    gap: 1
-                  }}>
-                    <IconButton
-                      size="small"
-                      onClick={() => handleOpen(trainer)}
-                      sx={{ color: 'primary.main' }}
-                    >
-                      <EditIcon />
-                    </IconButton>
-                    <IconButton
-                      size="small"
-                      onClick={() => handleDelete(trainer._id)}
-                      sx={{ color: 'error.main' }}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Box>
                 </CardContent>
+                <CardActions sx={{ justifyContent: 'flex-end' }}>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleOpen(trainer)}
+                    sx={{ color: 'primary.main' }}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={() => handleDelete(trainer._id)}
+                    sx={{ color: 'error.main' }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </CardActions>
               </Card>
             </Grid>
           ))
         ) : (
+          // If no trainers found
           <Grid item xs={12}>
-            <Alert severity="info">
-              {t('common.noTrainers')}
-            </Alert>
+            <Alert severity="info">{t('common.noTrainers')}</Alert>
           </Grid>
         )}
       </Grid>
 
-      {/* Add/Edit Trainer Dialog */}
-      <Dialog 
-        open={open} 
-        onClose={handleClose}
-        maxWidth="sm"
-        fullWidth
-      >
+      {/* Dialog for adding/editing a Trainer */}
+      <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle>
           {selectedTrainer ? t('trainer.editTrainer') : t('trainer.addTrainer')}
         </DialogTitle>
@@ -321,10 +358,12 @@ const TrainerList = () => {
               margin="normal"
               required
             />
+
+            {/* Show password only if adding a new trainer */}
             {!selectedTrainer && (
               <TextField
                 fullWidth
-                label={t('trainer.password')}
+                label={t('trainer.password') || t('common.password')} // fallback
                 type="password"
                 value={formData.password}
                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
@@ -332,36 +371,52 @@ const TrainerList = () => {
                 required
               />
             )}
+
             <FormControl fullWidth margin="normal" required>
-              <InputLabel id="gender-label">
-                {t('trainer.gender.label')}
-              </InputLabel>
+              <InputLabel id="gender-label">{t('trainer.gender.label') || t('common.gender')}</InputLabel>
               <Select
                 labelId="gender-label"
                 value={formData.gender}
-                label={t('trainer.gender.label')}
+                label={t('trainer.gender.label') || t('common.gender')}
                 onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
               >
-                <MenuItem value="male">{t('trainer.gender.male')}</MenuItem>
-                <MenuItem value="female">{t('trainer.gender.female')}</MenuItem>
+                <MenuItem value="male">{t('trainer.gender.male') || t('common.gender.male')}</MenuItem>
+                <MenuItem value="female">{t('trainer.gender.female') || t('common.gender.female')}</MenuItem>
               </Select>
             </FormControl>
+
             <FormControl fullWidth margin="normal" required>
-              <InputLabel id="specialization-label">
-                {t('trainer.specialization')}
-              </InputLabel>
+              <InputLabel id="specialization-label">{t('trainer.specialization')}</InputLabel>
               <Select
                 labelId="specialization-label"
                 value={formData.specialization}
                 label={t('trainer.specialization')}
                 onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
               >
-                <MenuItem value="general">{t('trainer.specializations.general')}</MenuItem>
-                <MenuItem value="dressage">{t('trainer.specializations.dressage')}</MenuItem>
-                <MenuItem value="jumping">{t('trainer.specializations.jumping')}</MenuItem>
-                <MenuItem value="eventing">{t('trainer.specializations.eventing')}</MenuItem>
+                <MenuItem value="general">
+                  {t('trainer.specializations.general')}
+                </MenuItem>
+                <MenuItem value="dressage">
+                  {t('trainer.specializations.dressage')}
+                </MenuItem>
+                <MenuItem value="jumping">
+                  {t('trainer.specializations.jumping')}
+                </MenuItem>
+                <MenuItem value="eventing">
+                  {t('trainer.specializations.eventing')}
+                </MenuItem>
+                <MenuItem value="western">
+                  {t('trainer.specializations.western')}
+                </MenuItem>
+                <MenuItem value="endurance">
+                  {t('trainer.specializations.endurance')}
+                </MenuItem>
+                <MenuItem value="vaulting">
+                  {t('trainer.specializations.vaulting')}
+                </MenuItem>
               </Select>
             </FormControl>
+
             <FormControl fullWidth margin="normal" required>
               <InputLabel id="status-label">{t('common.status')}</InputLabel>
               <Select
@@ -376,9 +431,7 @@ const TrainerList = () => {
             </FormControl>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>
-              {t('common.cancel')}
-            </Button>
+            <Button onClick={handleClose}>{t('common.cancel')}</Button>
             <Button type="submit" variant="contained" color="primary">
               {selectedTrainer ? t('common.save') : t('common.add')}
             </Button>

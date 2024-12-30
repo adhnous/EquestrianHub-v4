@@ -23,20 +23,29 @@ import {
   IconButton,
   Stack,
 } from '@mui/material';
-import { Edit as EditIcon, Delete as DeleteIcon, Add as AddIcon } from '@mui/icons-material';
+import {
+  Edit as EditIcon,
+  Delete as DeleteIcon,
+  Add as AddIcon,
+} from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
-import { 
-  getTrainees, 
-  getTrainee, 
-  createTrainee, 
-  updateTrainee, 
-  deleteTrainee 
+import {
+  getTrainees,
+  createTrainee,
+  updateTrainee,
+  deleteTrainee,
 } from '../services/api';
 
 const TraineeList = () => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
+
+  // Dialog open/close state
   const [open, setOpen] = useState(false);
+  // Currently selected trainee for editing (null => "Add" mode)
   const [selectedTrainee, setSelectedTrainee] = useState(null);
+
+  // 1) Include `password` in your formData
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -46,14 +55,19 @@ const TraineeList = () => {
     emergencyContact: {
       name: '',
       phone: '',
-      relationship: ''
-    }
+      relationship: '',
+    },
+    password: '', // <--- NEW
   });
+
   const [error, setError] = useState(null);
 
-  const queryClient = useQueryClient();
-
-  const { data: trainees = [], isLoading, error: queryError } = useQuery(
+  // Fetch trainees
+  const {
+    data: trainees = [],
+    isLoading,
+    error: queryError,
+  } = useQuery(
     'trainees',
     async () => {
       const response = await getTrainees();
@@ -67,7 +81,7 @@ const TraineeList = () => {
       onError: (error) => {
         console.error('Error fetching trainees:', error);
         setError(error.response?.data?.message || 'Failed to fetch trainees');
-      }
+      },
     }
   );
 
@@ -75,6 +89,7 @@ const TraineeList = () => {
     console.log('Current trainees:', trainees);
   }, [trainees]);
 
+  // --- CREATE MUTATION ---
   const createMutation = useMutation(
     async (newTrainee) => {
       const response = await createTrainee(newTrainee);
@@ -87,10 +102,11 @@ const TraineeList = () => {
       onSuccess: () => {
         queryClient.invalidateQueries('trainees');
         handleClose();
-      }
+      },
     }
   );
 
+  // --- UPDATE MUTATION ---
   const updateMutation = useMutation(
     async ({ id, data }) => {
       const response = await updateTrainee(id, data);
@@ -103,10 +119,11 @@ const TraineeList = () => {
       onSuccess: () => {
         queryClient.invalidateQueries('trainees');
         handleClose();
-      }
+      },
     }
   );
 
+  // --- DELETE MUTATION ---
   const deleteMutation = useMutation(
     async (id) => {
       const response = await deleteTrainee(id);
@@ -118,12 +135,16 @@ const TraineeList = () => {
     {
       onSuccess: () => {
         queryClient.invalidateQueries('trainees');
-      }
+      },
     }
   );
 
+  // Open dialog for Add OR Edit
   const handleOpen = (trainee = null) => {
+    setError(null);
+
     if (trainee) {
+      // We are editing an existing trainee
       setSelectedTrainee(trainee);
       setFormData({
         name: trainee.name,
@@ -134,10 +155,13 @@ const TraineeList = () => {
         emergencyContact: trainee.emergencyContact || {
           name: '',
           phone: '',
-          relationship: ''
-        }
+          relationship: '',
+        },
+        // Usually, you do NOT pre-fill the password in an edit form:
+        password: '',
       });
     } else {
+      // We are adding a new trainee
       setSelectedTrainee(null);
       setFormData({
         name: '',
@@ -148,10 +172,12 @@ const TraineeList = () => {
         emergencyContact: {
           name: '',
           phone: '',
-          relationship: ''
-        }
+          relationship: '',
+        },
+        password: '', // <--- reset password
       });
     }
+
     setOpen(true);
   };
 
@@ -160,21 +186,30 @@ const TraineeList = () => {
     setSelectedTrainee(null);
   };
 
+  // Submit the form
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // If editing an existing trainee
     if (selectedTrainee) {
+      // If you want to allow password changes during editing, you'd add:
+      // if (formData.password) { ... } 
+      // But for now, let's ignore password unless it's new.
       updateMutation.mutate({ id: selectedTrainee._id, data: formData });
     } else {
+      // If creating a new trainee => send the password
       createMutation.mutate(formData);
     }
   };
 
+  // Confirm and delete
   const handleDelete = async (id) => {
     if (window.confirm(t('trainee.actions.confirmDelete'))) {
       deleteMutation.mutate(id);
     }
   };
 
+  // --- CONDITIONALS FOR LOADING / ERROR ---
   if (isLoading) {
     return (
       <Box sx={{ display: 'flex', justifyContent: 'center', p: 3 }}>
@@ -193,6 +228,7 @@ const TraineeList = () => {
     );
   }
 
+  // --- RENDER ---
   return (
     <Box sx={{ p: 3 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 3 }}>
@@ -210,35 +246,48 @@ const TraineeList = () => {
       </Box>
 
       <Grid container spacing={3}>
-        {trainees.map((trainee) => (
+        {Array.isArray(trainees) && trainees.map((trainee) => (
           <Grid item xs={12} sm={6} md={4} key={trainee._id}>
             <Card>
               <CardContent>
-                <Typography variant="h6" gutterBottom>
-                  {trainee.name}
-                </Typography>
-                <Stack spacing={1}>
-                  <Typography>
-                    {t('common.email')}: {trainee.email}
-                  </Typography>
-                  <Typography>
-                    {t('common.phone')}: {trainee.phone}
-                  </Typography>
-                  <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
-                    <Chip 
-                      label={t(`trainee.level.${trainee.experienceLevel}`)}
-                      color="primary"
-                      size="small"
-                    />
-                    <Chip 
-                      label={t(`trainee.preferredDiscipline.${trainee.preferredDiscipline}`)}
-                      color="secondary"
-                      size="small"
-                    />
+                <Stack spacing={2}>
+                  {/* Basic Info */}
+                  <Box>
+                    <Typography variant="h6">
+                      {trainee?.name || 'N/A'}
+                    </Typography>
+                    <Typography color="textSecondary">
+                      {trainee?.email || 'N/A'}
+                    </Typography>
+                    <Typography>
+                      {trainee?.phone || 'N/A'}
+                    </Typography>
                   </Box>
-                  <Typography>
-                    {t('trainee.emergencyContact')}: {trainee.emergencyContact?.name} ({trainee.emergencyContact?.relationship}) - {trainee.emergencyContact?.phone}
-                  </Typography>
+
+                  {/* Experience Level */}
+                  <Box>
+                    <Typography variant="subtitle2">
+                      Experience Level:
+                    </Typography>
+                    <Typography>
+                      {trainee?.experienceLevel || 'N/A'}
+                    </Typography>
+                  </Box>
+
+                  {/* Emergency Contact */}
+                  {trainee?.emergencyContact && (
+                    <Box>
+                      <Typography variant="subtitle2">
+                        Emergency Contact:
+                      </Typography>
+                      <Typography>
+                        {`${trainee.emergencyContact.name || 'N/A'} (${trainee.emergencyContact.relationship || 'N/A'})`}
+                      </Typography>
+                      <Typography>
+                        {trainee.emergencyContact.phone || 'N/A'}
+                      </Typography>
+                    </Box>
+                  )}
                 </Stack>
               </CardContent>
               <CardActions sx={{ justifyContent: 'flex-end' }}>
@@ -260,119 +309,191 @@ const TraineeList = () => {
             </Card>
           </Grid>
         ))}
+        {(!trainees || trainees.length === 0) && (
+          <Grid item xs={12}>
+            <Alert severity="info">
+              No trainees found
+            </Alert>
+          </Grid>
+        )}
       </Grid>
 
+      {/* Dialog for Add/Edit */}
       <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
-        <DialogTitle>
-          {selectedTrainee ? t('trainee.editTrainee') : t('trainee.addNew')}
-        </DialogTitle>
         <form onSubmit={handleSubmit}>
-          <DialogContent>
-            <TextField
-              fullWidth
-              label={t('trainee.name')}
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              margin="normal"
-              required
-            />
-            <TextField
-              fullWidth
-              label={t('trainee.email')}
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              margin="normal"
-              required
-            />
-            <TextField
-              fullWidth
-              label={t('trainee.phone')}
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              margin="normal"
-              required
-            />
-            <FormControl fullWidth margin="normal" required>
-              <InputLabel id="level-label">{t('trainee.level.label')}</InputLabel>
-              <Select
-                labelId="level-label"
-                value={formData.experienceLevel}
-                label={t('trainee.level.label')}
-                onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
-              >
-                <MenuItem value="beginner">{t('trainee.level.beginner')}</MenuItem>
-                <MenuItem value="intermediate">{t('trainee.level.intermediate')}</MenuItem>
-                <MenuItem value="advanced">{t('trainee.level.advanced')}</MenuItem>
-              </Select>
-            </FormControl>
-            <FormControl fullWidth margin="normal" required>
-              <InputLabel id="discipline-label">
-                {t('trainee.preferredDiscipline.label')}
-              </InputLabel>
-              <Select
-                labelId="discipline-label"
-                value={formData.preferredDiscipline}
-                label={t('trainee.preferredDiscipline.label')}
-                onChange={(e) => setFormData({ ...formData, preferredDiscipline: e.target.value })}
-              >
-                <MenuItem value="western">{t('trainee.preferredDiscipline.western')}</MenuItem>
-                <MenuItem value="jumping">{t('trainee.preferredDiscipline.jumping')}</MenuItem>
-                <MenuItem value="dressage">{t('trainee.preferredDiscipline.dressage')}</MenuItem>
-              </Select>
-            </FormControl>
-            <Box sx={{ mt: 2 }}>
-              <Typography variant="subtitle1" gutterBottom>
+          <DialogTitle>
+            {selectedTrainee
+              ? t('trainee.editTitle')
+              : t('trainee.addNewTitle')}
+          </DialogTitle>
+          <DialogContent sx={{ pt: 2 }}>
+            <Stack spacing={2}>
+              <TextField
+                name="name"
+                label={t('common.name')}
+                value={formData.name}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, name: e.target.value }))
+                }
+                required
+                fullWidth
+              />
+              <TextField
+                name="email"
+                label={t('common.email')}
+                type="email"
+                value={formData.email}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, email: e.target.value }))
+                }
+                required
+                fullWidth
+              />
+              <TextField
+                name="phone"
+                label={t('common.phone')}
+                value={formData.phone}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, phone: e.target.value }))
+                }
+                required
+                fullWidth
+              />
+
+              {/* If you want to show password ALWAYS, remove the condition */}
+              {!selectedTrainee && (
+                <TextField
+                  name="password"
+                  label={t('common.password')}
+                  type="password"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      password: e.target.value,
+                    }))
+                  }
+                  required
+                  fullWidth
+                />
+              )}
+
+              {/* Example: experienceLevel (beginner, intermediate, advanced) */}
+              <FormControl fullWidth>
+                <InputLabel>{t('trainee.experienceLevel')}</InputLabel>
+                <Select
+                  name="experienceLevel"
+                  label={t('trainee.experienceLevel')}
+                  value={formData.experienceLevel}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      experienceLevel: e.target.value,
+                    }))
+                  }
+                  required
+                >
+                  <MenuItem value="beginner">
+                    {t('trainee.level.beginner')}
+                  </MenuItem>
+                  <MenuItem value="intermediate">
+                    {t('trainee.level.intermediate')}
+                  </MenuItem>
+                  <MenuItem value="advanced">
+                    {t('trainee.level.advanced')}
+                  </MenuItem>
+                </Select>
+              </FormControl>
+
+              {/* Example: preferredDiscipline (western, english, etc.) */}
+              <FormControl fullWidth>
+                <InputLabel>{t('trainee.preferredDiscipline.label')}</InputLabel>
+                <Select
+                  name="preferredDiscipline"
+                  label={t('trainee.preferredDiscipline.label')}
+                  value={formData.preferredDiscipline}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      preferredDiscipline: e.target.value,
+                    }))
+                  }
+                  required
+                >
+                  <MenuItem value="western">
+                    {t('trainee.preferredDiscipline.western')}
+                  </MenuItem>
+                  <MenuItem value="english">
+                    {t('trainee.preferredDiscipline.english')}
+                  </MenuItem>
+                  {/* Add more if needed */}
+                </Select>
+              </FormControl>
+
+              {/* Emergency Contact Section */}
+              <Typography variant="subtitle1">
                 {t('trainee.emergencyContact')}
               </Typography>
               <TextField
-                fullWidth
-                label={t('trainee.emergencyContact.name')}
+                name="emergencyContactName"
+                label={t('common.name')}
                 value={formData.emergencyContact.name}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  emergencyContact: {
-                    ...formData.emergencyContact,
-                    name: e.target.value
-                  }
-                })}
-                margin="normal"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    emergencyContact: {
+                      ...prev.emergencyContact,
+                      name: e.target.value,
+                    },
+                  }))
+                }
                 required
+                fullWidth
               />
               <TextField
-                fullWidth
-                label={t('trainee.emergencyContact.phone')}
+                name="emergencyContactPhone"
+                label={t('common.phone')}
                 value={formData.emergencyContact.phone}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  emergencyContact: {
-                    ...formData.emergencyContact,
-                    phone: e.target.value
-                  }
-                })}
-                margin="normal"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    emergencyContact: {
+                      ...prev.emergencyContact,
+                      phone: e.target.value,
+                    },
+                  }))
+                }
                 required
+                fullWidth
               />
               <TextField
-                fullWidth
-                label={t('trainee.emergencyContact.relationship')}
+                name="emergencyContactRelationship"
+                label={t('common.relationship')}
                 value={formData.emergencyContact.relationship}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  emergencyContact: {
-                    ...formData.emergencyContact,
-                    relationship: e.target.value
-                  }
-                })}
-                margin="normal"
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    emergencyContact: {
+                      ...prev.emergencyContact,
+                      relationship: e.target.value,
+                    },
+                  }))
+                }
                 required
+                fullWidth
               />
-            </Box>
+            </Stack>
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>{t('common.cancel')}</Button>
-            <Button type="submit" variant="contained" color="primary">
-              {selectedTrainee ? t('common.save') : t('common.add')}
+            <Button
+              type="submit"
+              variant="contained"
+              disabled={createMutation.isLoading || updateMutation.isLoading}
+            >
+              {createMutation.isLoading || updateMutation.isLoading
+                ? 'Saving...'
+                : t('common.save')}
             </Button>
           </DialogActions>
         </form>
