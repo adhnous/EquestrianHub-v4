@@ -1,0 +1,378 @@
+{
+  "common": {
+     "relationship": "Relationship",
+    "appTitle": "Equestrian Center",
+    "dashboard": "Dashboard",
+    "trainingClasses": "Training Classes",
+    "competitions": "Competitions",
+    "horses": "Horses",
+    "trainers": "Trainers",
+    "trainees": "Trainees",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "edit": "Edit",
+    "delete": "Delete",
+    "loading": "Loading...",
+    "openDrawer": "Open Drawer",
+    "closeDrawer": "Close Drawer",
+    "userAccount": "User Account",
+    "add": "Add",
+    "update": "Update",
+    "confirm": "Confirm",
+    "confirmAction": "Are you sure you want to proceed?",
+    "phone": "Phone",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "name": "Name",
+    "certifications": "Certifications",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "monday": "Monday",
+    "mondayHelperText": "Working hours on Monday",
+    "tuesday": "Tuesday",
+    "tuesdayHelperText": "Working hours on Tuesday",
+    "wednesday": "Wednesday",
+    "wednesdayHelperText": "Working hours on Wednesday",
+    "thursday": "Thursday",
+    "thursdayHelperText": "Working hours on Thursday",
+    "friday": "Friday",
+    "fridayHelperText": "Working hours on Friday",
+    "saturday": "Saturday",
+    "saturdayHelperText": "Working hours on Saturday",
+    "sunday": "Sunday",
+    "sundayHelperText": "Working hours on Sunday",
+    "search": "Search",
+    "filter": "Filter",
+    "clearFilters": "Clear Filters",
+    "reset": "Reset",
+    "noResultsFound": "No matching results found.",
+    "settings": "Settings",
+    "basicInformation": "Basic Information",
+    "availability": "Availability",
+    "availabilityHelperText": "Specify the days and hours available for training",
+    "certificationsHelperText": "Enter professional certifications and qualifications",
+    "actions": "Actions",
+    "details": "Details",
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Information",
+    "language": "Language",
+    "theme": "Theme",
+    "dark": "Dark",
+    "light": "Light",
+    "themeSwitcher": "Switch Theme",
+    "notifications": "Notifications",
+    "markAllRead": "Mark All as Read",
+    "viewMore": "View More",
+    "emptyNotifications": "No new notifications.",
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "undefined": "Undefined"
+    },
+    "pagination": {
+      "next": "Next",
+      "previous": "Previous",
+      "itemsPerPage": "Items per Page"
+    },
+    "validation": {
+      "required": "This field is required",
+      "invalidEmail": "Invalid email address",
+      "invalidPhone": "Invalid phone number",
+      "invalidNumber": "Please enter a valid number"
+    },
+    "loadingStates": {
+      "fetchingData": "Fetching data...",
+      "processingRequest": "Processing request...",
+      "savingChanges": "Saving changes..."
+    },
+    "modals": {
+      "delete": {
+        "title": "Delete Confirmation",
+        "message": "Are you sure you want to delete this item? This action cannot be undone.",
+        "confirm": "Delete",
+        "cancel": "Cancel"
+      },
+      "unsavedChanges": {
+        "title": "Unsaved Changes",
+        "message": "You have unsaved changes. Do you want to proceed without saving?",
+        "confirm": "Proceed",
+        "cancel": "Cancel"
+      }
+    },
+    "noData": {
+      "title": "No Data",
+      "message": "There are no items to display currently."
+    },
+    "help": "Help",
+    "feedback": "Feedback",
+    "contactSupport": "Contact Support",
+    "aboutApp": "About the App",
+    "version": "Version",
+    "welcomeMessage": "Welcome to the Equestrian Center",
+    "activeCompetitions": "Active Competitions",
+    "upcomingClasses": "Upcoming Classes"
+  },
+  "university": {
+    "name": "University of Tripoli",
+    "logo": "University Logo"
+  },
+  "faculty": {
+    "name": "Faculty of Information Technology"
+  },
+  "project": {
+    "title": "Equestrian Academy",
+    "description": "A project submitted to the Software Engineering Department in fulfillment of the requirements for a Bachelor's degree",
+    "students": "Prepared by students",
+    "student1": "Nihal Mohamed Mabrouk Al-Jubair - Registration No: 2191807474",
+    "student2": "Alaa Saleh Salem Shtami - Registration No: 2191809943",
+    "supervisor": "Supervised by",
+    "supervisorName": "Dr. Amna Ali Abdul Salam Mohamed"
+  },
+  "auth": {
+    "username": "Username",
+    "password": "Password",
+    "login": "Login",
+    "loginButton": "Login",
+    "logout": "Logout",
+    "forgotPassword": "Forgot Password?",
+    "rememberMe": "Remember Me",
+    "loginError": "Login Error",
+    "invalidCredentials": "Invalid username or password"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "horses": "Horses",
+    "trainers": "Trainers",
+    "trainees": "Trainees",
+    "competitions": "Competitions",
+    "classes": "Training Classes",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "horse": {
+  "title": "Horse Management",
+  "management": "Horse Management",
+  "addNew": "Add New Horse",
+  "editHorse": "Edit Horse",
+  "name": "Horse Name",
+  "breed": "Breed",
+  "age": "Age",
+  "color": "Color",
+  "healthStatus": "Health Status",
+  "yearOld": "Year",
+  "yearsOld": "Years",
+  "status": {
+    "healthy": "Healthy",
+    "sick": "Sick",
+    "injured": "Injured",
+    "recovery": "Recovering",
+    "checkup": "Needs Checkup"
+  },
+  "breeds": {
+    "arabian": "Arabian",
+    "thoroughbred": "Thoroughbred",
+    "quarter_horse": "Quarter Horse",
+    "warmblood": "Warmblood",
+    "other": "Other",
+    "hanoverian": "Hanoverian"
+  },
+  "colors": {
+    "bay": "Bay",
+    "black": "Black",
+    "chestnut": "Chestnut",
+    "grey": "Grey",
+    "palomino": "Palomino"
+  },
+  "actions": {
+    "add": "Add Horse",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this horse?"
+  },
+  "noHorsesFound": "No horses found. Click 'Add New Horse' to create one.",
+ "genders": {
+  "mare": "Mare",
+  "stallion": "Stallion",
+  "gelding": "Gelding",
+  "undefined": "Undefined"
+},
+"owner": "Owner",
+  "registrationNumber": "Registration Number",
+  "height": "Height",
+  "weight": "Weight",
+  "discipline": "Discipline",
+  "disciplines": {
+    "dressage": "Dressage",
+    "jumping": "Jumping",
+    "eventing": "Eventing",
+    "western": "Western",
+    "general": "General"
+  },
+  "healthNotes": "Health Notes",
+  "specialNeeds": "Special Needs",
+  "imageUrl": "Image URL",
+  "basicInformation": "Basic Information",
+  "healthInformation": "Health Information",
+  "heightHelperText": "Height in centimeters",
+  "weightHelperText": "Weight in kilograms",
+  "ageHelperText": "Age in years",
+  "imageUrlHelperText": "Horse image URL (optional)"
+},
+  "errors": {
+    "required": "This field is required",
+    "invalidEmail": "Invalid email address",
+    "invalidCredentials": "Invalid email or password",
+    "somethingWentWrong": "Something went wrong",
+    "invalidPhone": "Invalid phone number",
+    "invalidNumber": "Please enter a valid number"
+  },
+    "trainer": {
+  "addTrainer": "Add Trainer",
+  "editTrainer": "Edit Trainer",
+  "name": "Name",
+  "email": "Email",
+  "phone": "Phone",
+  "password": "Password",
+  "gender": {
+    "label": "Gender",
+    "male": "Male",
+    "female": "Female"
+  },
+  "specialization": "Specialization",
+  "specializations": {
+    "general": "General",
+    "dressage": "Dressage",
+    "jumping": "Show Jumping",
+    "eventing": "Eventing",
+    "western": "Western",
+    "endurance": "Endurance",
+    "vaulting": "Vaulting"
+  },
+  "status": "Status",
+  "statuses": {
+    "active": "Active",
+    "inactive": "Inactive"
+  },
+  "actions": {
+    "add": "Add Trainer",
+    "edit": "Edit",
+    "delete": "Delete",
+    "confirmDelete": "Are you sure you want to delete this trainer?"
+  }
+},
+  "trainee": {
+    "gender": { 
+      "label": "Gender",  
+      "male": "Male", 
+      "female": "Female"
+    },           
+    "addTraineetilte": "Add Trainee",
+    "title": "Trainees",
+    "addNew": "Add New Trainee",
+    "editTrainee": "Edit Trainee",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "level": {
+      "label": "Experience Level",
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "preferredDiscipline": {
+      "label": "Preferred Discipline",
+      "western": "Western",
+      "jumping": "Show Jumping",
+      "dressage": "Dressage"
+    },
+    "emergencyContact": {
+      "title": "Emergency Contact",
+      "name": "Contact Name",
+      "phone": "Contact Phone",
+      "relationship": "Relationship"
+    },
+    "actions": {
+      "confirmDelete": "Are you sure you want to delete this trainee?"
+    },
+    "noTraineesFound": "No trainees found. Click 'Add New Trainee' to create one.",
+    "traineeList": {
+      "title": "Trainee List",
+      "addNew": "Add New Trainee",
+      "editTrainee": "Edit Trainee",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "level": {
+        "label": "Experience Level",
+        "beginner": "Beginner",
+        "intermediate": "Intermediate",
+        "advanced": "Advanced"
+      },
+      "preferredDiscipline": {
+        "label": "Preferred Discipline",
+        "western": "Western",
+        "jumping": "Show Jumping",
+        "dressage": "Dressage"
+      },      
+      "emergencyContact": {
+        "title": "Emergency Contact",
+        "name": "Contact Name",
+        "phone": "Contact Phone",
+        "relationship": "Relationship"
+      },
+      "actions": {
+        "confirmDelete": "Are you sure you want to delete this trainee?"
+        }
+      },
+      "noHorsesFound": "No horses found. Click 'Add New Horse' to create one."
+    },
+  "competition": {
+    "management": "Competition Management",
+    "addNew": "Add New Competition",
+    "name": "Competition Name",
+    "date": "Competition Date",
+    "time": "Time",
+    "location": "Location",
+    "type": "Competition Type",
+    "types": {
+      "dressage": "Dressage",
+      "jumping": "Jumping",
+      "endurance": "Endurance",
+      "reining": "Reining",
+      "vaulting": "Vaulting"
+    },
+    "level": "Experience Level",
+    "levels": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced",
+      "professional": "Professional"
+    },
+    "maxParticipants": "Max Participants",
+    "registrationDeadline": "Registration Deadline",
+    "description": "Description",
+    "prize": "Prize",
+    "status": "Competition Status",
+    "statuses": {
+      "upcoming": "Upcoming",
+      "ongoing": "Ongoing",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "actions": {
+      "add": "Add",
+      "edit": "Edit",
+      "delete": "Delete",
+      "confirmDelete": "Are you sure you want to delete this competition?"
+    },
+    "noCompetitionsFound": "No competitions found. Click 'Add New Competition' to create one."
+  }
+}

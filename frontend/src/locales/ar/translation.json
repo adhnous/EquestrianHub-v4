@@ -1,0 +1,393 @@
+{
+  "dashboard": {
+    "welcomeMessage": "مرحباً بك في مركز الفروسية",
+    "upcomingClasses": "الحصص القادمة",
+    "activeCompetitions": "المسابقات النشطة"
+  },
+  "common": {
+    "relatiojnship": "العلاقة",
+    "appTitle": "مركز الفروسية",
+    "dashboard": "لوحة التحكم",
+    "trainingClasses": "حصص التدريب",
+    "competitions": "المسابقات",
+    "horses": "الخيول",
+    "trainers": "المدربون",
+    "trainees": "المتدربون",
+    "profile": "الملف الشخصي",
+    "logout": "تسجيل الخروج",
+    "login": "تسجيل الدخول",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "submit": "إرسال",
+    "cancel": "إلغاء",
+    "save": "حفظ",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "loading": "جاري التحميل...",
+    "openDrawer": "فتح القائمة",
+    "closeDrawer": "إغلاق القائمة",
+    "userAccount": "حساب المستخدم",
+    "add": "إضافة",
+    "update": "تحديث",
+    "confirm": "تأكيد",
+    "confirmAction": "هل أنت متأكد من المتابعة؟",
+    "phone": "رقم الهاتف",
+    "status": "الحالة",
+    "active": "نشط",
+    "inactive": "غير نشط",
+    "name": "الاسم",
+    "certifications": "الشهادات",
+    "confirmDelete": "هل أنت متأكد من حذف هذا العنصر؟",
+    "monday": "الإثنين",
+    "mondayHelperText": "ساعات العمل يوم الإثنين",
+    "tuesday": "الثلاثاء",
+    "tuesdayHelperText": "ساعات العمل يوم الثلاثاء",
+    "wednesday": "الأربعاء",
+    "wednesdayHelperText": "ساعات العمل يوم الأربعاء",
+    "thursday": "الخميس",
+    "thursdayHelperText": "ساعات العمل يوم الخميس",
+    "friday": "الجمعة",
+    "fridayHelperText": "ساعات العمل يوم الجمعة",
+    "saturday": "السبت",
+    "saturdayHelperText": "ساعات العمل يوم السبت",
+    "sunday": "الأحد",
+    "sundayHelperText": "ساعات العمل يوم الأحد",
+    "search": "بحث",
+    "filter": "تصفية",
+    "clearFilters": "مسح التصفية",
+    "reset": "إعادة تعيين",
+    "noResultsFound": "لا توجد نتائج مطابقة.",
+    "settings": "الإعدادات",
+    "basicInformation": "المعلومات الأساسية",
+    "availability": "الجدول المتاح",
+    "availabilityHelperText": "حدد الأيام والساعات المتاحة للتدريب",
+    "certificationsHelperText": "أدخل الشهادات والمؤهلات المهنية",
+    "actions": "إجراءات",
+    "details": "التفاصيل",
+    "success": "نجاح",
+    "error": "خطأ",
+    "warning": "تحذير",
+    "info": "معلومات",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "dark": "داكن",
+    "light": "فاتح",
+    "themeSwitcher": "تغيير المظهر",
+    "notifications": "الإشعارات",
+    "markAllRead": "تعليم الكل كمقروء",
+    "viewMore": "عرض المزيد",
+    "emptyNotifications": "لا توجد إشعارات جديدة.",
+    "gender": {
+      "male": "ذكر",
+      "female": "أنثى",
+      "undefined": "غير محدد"
+    },
+    "pagination": {
+      "next": "التالي",
+      "previous": "السابق",
+      "itemsPerPage": "العناصر لكل صفحة"
+    },
+    "validation": {
+      "required": "هذا الحقل مطلوب",
+      "invalidEmail": "البريد الإلكتروني غير صالح",
+      "invalidPhone": "رقم الهاتف غير صالح",
+      "invalidNumber": "يرجى إدخال رقم صحيح"
+    },
+    "loadingStates": {
+      "fetchingData": "جاري جلب البيانات...",
+      "processingRequest": "جاري معالجة الطلب...",
+      "savingChanges": "جاري حفظ التغييرات..."
+    },
+    "modals": {
+      "delete": {
+        "title": "تأكيد الحذف",
+        "message": "هل أنت متأكد أنك تريد حذف هذا العنصر؟ لا يمكن التراجع عن هذا الإجراء.",
+        "confirm": "حذف",
+        "cancel": "إلغاء"
+      },
+      "unsavedChanges": {
+        "title": "تغييرات غير محفوظة",
+        "message": "لديك تغييرات غير محفوظة. هل تريد المتابعة بدون حفظ؟",
+        "confirm": "متابعة",
+        "cancel": "إلغاء"
+      }
+    },
+    "noData": {
+      "title": "لا توجد بيانات",
+      "message": "لا توجد عناصر لعرضها حالياً."
+    },
+    "help": "مساعدة",
+    "feedback": "تعليقات",
+    "contactSupport": "اتصل بالدعم",
+    "aboutApp": "حول التطبيق",
+    "version": "الإصدار",
+    "welcomeMessage": "مرحباً بك في أكاديمية الفروسية",
+    "activeCompetitions": "المسابقات النشطة",
+    "upcomingClasses": "الحصص القادمة",
+    "noTrainers": "لم يتم العثور على مدربين"
+  },
+  "university": {
+    "name": "جامعة طرابلس",
+    "logo": "شعار الجامعة"
+  },
+  "faculty": {
+    "name": "كلية تقنية المعلومات"
+  },
+  "project": {
+    "title": "أكاديمية الفروسية",
+    "description": "مشروع مقدم لقسم هندسة البرمجيات لاستيفاء متطلبات درجة البكالوريوس",
+    "students": "إعداد الطلاب",
+    "student1": "نهال محمد المبروك الجبير - رقم القيد: 2191807474",
+    "student2": "الاء صالح سالم شتامي - رقم القيد: 2191809943",
+    "supervisor": "إشراف",
+    "supervisorName": "د. امنة علي عبد السلام محمد"
+  },
+  "auth": {
+    "username": "اسم المستخدم",
+    "password": "كلمة المرور",
+    "login": "تسجيل الدخول",
+    "loginButton": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
+    "forgotPassword": "نسيت كلمة المرور؟",
+    "rememberMe": "تذكرني",
+    "loginError": "خطأ في تسجيل الدخول",
+    "invalidCredentials": "اسم المستخدم أو كلمة المرور غير صحيحة"
+  },
+  "navigation": {
+    "dashboard": "لوحة التحكم",
+    "horses": "الخيول",
+    "trainers": "المدربين",
+    "trainees": "المتدربين",
+    "competitions": "المسابقات",
+    "classes": "الحصص التدريبية",
+    "profile": "الملف الشخصي",
+    "settings": "الإعدادات"
+  },
+  "horse": {
+  "title": "إدارة الخيول",
+  "management": "إدارة الخيول",
+  "addNew": "إضافة حصان جديد",
+  "editHorse": "تعديل الحصان",
+  "name": "اسم الحصان",
+  "breed": "السلالة",
+  "age": "العمر",
+  "color": "اللون",
+  "healthStatus": "الحالة الصحية",
+  "yearOld": "سنة",
+  "yearsOld": "سنوات",
+  "status": {
+    "healthy": "سليم",
+    "sick": "مريض",
+    "injured": "مصاب",
+    "recovery": "في مرحلة التعافي",
+    "checkup": "يحتاج لفحص"
+  },
+  "breeds": {
+    "arabian": "عربي",
+    "thoroughbred": "ثوروبريد",
+    "quarter_horse": "كوارتر هورس",
+    "warmblood": "وارم بلود",
+    "other": "أخرى",
+    "hanoverian": "هانوفري"
+  },
+  "colors": {
+    "bay": "كستنائي",
+    "black": "أسود",
+    "chestnut": "أحمر",
+    "grey": "رمادي",
+    "palomino": "ذهبي"
+  },
+  "actions": {
+    "add": "إضافة",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "confirmDelete": "هل أنت متأكد من حذف هذا الحصان؟"
+  },
+  "noHorsesFound": "لم يتم العثور على خيول. انقر على \"إضافة حصان جديد\" لإضافة واحد.",
+  "genders": {
+    "mare": "فرس",
+    "stallion": "حصان",
+    "gelding": "حصان مخصي",
+    "undefined": "غير محدد"
+  },
+  "owner": "المالك",
+  "registrationNumber": "رقم التسجيل",
+  "height": "الارتفاع",
+  "weight": "الوزن",
+  "discipline": "التخصص",
+  "disciplines": {
+    "dressage": "الترويض",
+    "jumping": "القفز",
+    "eventing": "الفروسية الشاملة",
+    "western": "الركوب الغربي",
+    "general": "عام"
+  },
+  "healthNotes": "ملاحظات صحية",
+  "specialNeeds": "احتياجات خاصة",
+  "imageUrl": "رابط الصورة",
+  "basicInformation": "المعلومات الأساسية",
+  "healthInformation": "المعلومات الصحية",
+  "heightHelperText": "الارتفاع بالسنتيمتر",
+  "weightHelperText": "الوزن بالكيلوغرام",
+  "ageHelperText": "العمر بالسنوات",
+  "imageUrlHelperText": "رابط صورة الحصان (اختياري)"
+},
+  "errors": {
+    "required": "هذا الحقل مطلوب",
+    "invalidEmail": "البريد الإلكتروني غير صالح",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "somethingWentWrong": "حدث خطأ ما",
+    "invalidPhone": "رقم الهاتف غير صالح",
+    "invalidNumber": "يرجى إدخال رقم صحيح"
+  },
+  "trainer": {
+    "addTrainer": "إضافة مدرب",
+    "editTrainer": "تعديل بيانات المدرب",
+    "name": "الاسم",
+    "email": "البريد الإلكتروني",
+    "phone": "رقم الهاتف",
+    "password": "كلمة المرور",
+    "gender": {
+      "label": "الجنس",
+      "male": "ذكر",
+      "female": "انثى"
+    },
+    "specialization": "التخصص",
+    "specializations": {
+      "general": "عام",
+      "dressage": "الترويض",
+      "jumping": "القفز",
+      "eventing": "الفروسية الشاملة",
+      "western": "الركوب الغربي"
+    },
+    "actions": {
+      "add": "إضافة",
+      "edit": "تعديل",
+      "delete": "حذف",
+      "confirmDelete": "هل انت متاكد من حذف هذا المدرب؟"
+    },
+    "noTrainersFound": "لم يتم العثور على مدربين. انقر على \"إضافة مدرب\" لإضافة واحد."
+  },
+ "trainee": {
+  "gender": {
+    "label": "الجنس",
+    "male": "ذكر",
+    "female": "انثى"
+  },
+  
+  "addNewTitle": "إضافة متدرب",
+  "title": "المتدربين",
+  "addNew": "إضافة متدرب جديد",
+  "editTrainee": "تعديل بيانات المتدرب",
+  "editTitle": "تعديل بيانات المتدرب",
+  "name": "الاسم",
+  "email": "البريد الإلكتروني",
+  "phone": "رقم الهاتف",
+  "level": {
+    "label": "مستوى الخبرة",
+    "beginner": "مبتدئ",
+    "intermediate": "متوسط",
+    "advanced": "متقدم"
+  },
+  "preferredDiscipline": {
+    "label": "التخصص المفضل",
+    "western": "الركوب الغربي",
+    "jumping": "القفز",
+    "dressage": "الترويض",
+    "english": "اللغة الإنجليزية"
+  },
+  "emergencyContact": {
+    "title": "جهة اتصال الطوارئ",
+    "name": "اسم الاتصال",
+    "phone": "رقم الهاتف",
+    "relationship": "العلاقة"
+  },
+  "actions": {
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف هذا المتدرب؟"
+  },
+  "noTraineesFound": "لم يتم العثور على متدربين. انقر فوق \"إضافة متدرب جديد\" لإضافة واحد.",
+  "experienceLevel": {
+    "label": "مستوى الخبرة",
+    "beginner": "مبتدئ",
+    "intermediate": "متوسط",
+    "advanced": "متقدم"
+  }
+},
+             
+  
+ "trainingClass": {
+  "title": "إدارة الحصص التدريبية",
+  "addNew": "إضافة حصة جديدة",
+  "name": "اسم الحصة",
+  "instructor": "المدرب",
+  "time": "الوقت",
+  "maxParticipants": "الحد الأقصى للمشاركين",
+  "level": {
+    "label": "مستوى الخبرة",
+    "beginner": "ابتدائي",
+    "intermediate": "متوسط",
+    "advanced": "متقدم"
+  },
+  "discipline": {
+    "label": "التخصص",
+    "western": "الركوب الغربي",
+    "jumping": "القفز",
+    "dressage": "الترويض"
+  },
+  "description": "الوصف",
+  "price": "السعر"
+}, 
+"competition": {
+  "management": "إدارة المسابقات",
+  "types": {
+    "dressage": "الترويض",
+    "jumping": "القفز",
+    "endurance": "التحمل",
+    "reining": "التحكم",
+    "vaulting": "الجمباز على الخيل"
+  },
+  "levels": {
+    "beginner": "مبتدئ",
+    "intermediate": "متوسط",
+    "advanced": "متقدم",
+    "professional": "محترف"
+  },
+  "addNew": "إضافة مسابقة جديدة",
+  "editCompetition": "تعديل المسابقة",
+  "name": "اسم المسابقة",
+  "date": "تاريخ المسابقة",
+  "location": "الموقع",
+  "time": "الوقت",
+  "type": "نوع المسابقة",
+  "level": "مستوى الخبرة",
+  "maxParticipants": "الحد الأقصى للمشاركين",
+  "registrationDeadline": "موعد التسجيل النهائي",
+  "prize": "الجائزة",
+  "description": "الوصف",
+  "status": "حالة المسابقة",
+  "statuses": {
+    "upcoming": "قادم",
+    "ongoing": "جارٍ",
+    "completed": "منتهي",
+    "cancelled": "ملغي"
+  },
+  "actions": {
+    "add": "إضافة",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف هذه المسابقة؟"
+  },
+  "noCompetitionsFound": "لم يتم العثور على مسابقات. انقر فوق \"إضافة مسابقة جديدة\" لإضافة واحدة."
+},  
+"notification": {
+  "title": "الاشعارات",
+  "addNew": "إضافة اشعار جديد",
+  "message": "الرسالة",
+  "date": "التاريخ",
+  "time": "الوقت",
+  "actions": {
+    "confirmDelete": "هل أنت متأكد أنك تريد حذف هذا الاشعار؟"     
+  }
+}
+}
+
