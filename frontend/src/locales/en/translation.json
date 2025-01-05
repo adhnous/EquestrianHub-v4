@@ -1,6 +1,13 @@
 {
+  "dashboard": {
+    "welcomeMessage": "Welcome to the Equestrian Center",
+    "upcomingClasses": "Upcoming Classes",
+    "activeCompetitions": "Active Competitions",
+    "introMessage": "Welcome to the Equestrian Center! Find upcoming training classes and active competitions here."
+  },
   "common": {
      "relationship": "Relationship",
+     "searchPlaceholder ": "Search...",
     "appTitle": "Equestrian Center",
     "dashboard": "Dashboard",
     "trainingClasses": "Training Classes",

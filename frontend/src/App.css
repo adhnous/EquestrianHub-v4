@@ -1,3 +1,24 @@
+/* 
+  This is the container for your entire application.
+
+  CURRENT BEHAVIOR:
+  - Sets a max-width of 1280px for large screens.
+  - Centers the container horizontally.
+  - Adds 2rem padding around the content.
+  - Centers text within this container.
+
+  UPDATE SUGGESTIONS:
+  - You could make this more responsive by adjusting max-width on smaller screens with media queries.
+  - If you need a background color or an image, apply it here.
+
+  Example:
+  @media (max-width: 600px) {
+    #root {
+      padding: 1rem;
+    }
+  }
+*/
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -5,18 +26,66 @@
   text-align: center;
 }
 
+
+/*
+  .logo class
+
+  CURRENT BEHAVIOR:
+  - Sets the logo height to 6em (relative to current font size).
+  - Adds 1.5em of padding.
+  - Declares will-change to help optimize future filter changes.
+  - Adds a 300ms transition for any filter changes.
+
+  UPDATE SUGGESTIONS:
+  - If the logo image is large, consider setting width instead (or in addition).
+  - If the logo is an inline SVG, you might reduce the initial padding for better alignment.
+  - Will-change is powerful but can be used sparingly; keep it if you see actual performance gains.
+
+*/
+
 .logo {
   height: 6em;
   padding: 1.5em;
-  will-change: filter;
+  will-change: filter; 
   transition: filter 300ms;
 }
+
+/*
+  Hover effect for .logo:
+  - Applies a drop shadow (glow) when hovered.
+
+  .logo.react has its own hover, referencing a React-themed color (#61dafb).
+
+  TIP:
+  - If you want a subtler glow, lower the alpha (currently 'aa' ~ 66%).
+  - You could also add scale transform for a slight zoom effect if desired.
+
+  Example:
+  .logo:hover {
+    transform: scale(1.05);
+  }
+*/
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+
+
+/*
+  ANIMATION:
+  @keyframes logo-spin
+
+  CURRENT BEHAVIOR:
+  - Simple rotation from 0deg to 360deg.
+  - Usually used for rotating a logo infinitely.
+
+  TIP:
+  - If the rotation is too fast or too slow, adjust timing in the 
+    animation property (see below).
+*/
 
 @keyframes logo-spin {
   from {
@@ -27,15 +96,53 @@
   }
 }
 
+
+/*
+  PREFERS REDUCED MOTION:
+  - Only apply spinning animation if user has "no preference" for reduced motion.
+
+  a:nth-of-type(2) .logo
+    => This targets the second <a> element that has a .logo inside it.
+    => If you'd prefer a more explicit selector, you could add a unique class instead.
+
+  TIP:
+  - You can also handle other motion-based effects in here, 
+    not just the spin. 
+*/
+
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
     animation: logo-spin infinite 20s linear;
   }
 }
 
+
+/*
+  CARD STYLES:
+  Adds 2em of padding around elements with class="card".
+
+  TIP:
+  - You might add background-color, box-shadow, or border to highlight card containers.
+*/
+
 .card {
   padding: 2em;
 }
+
+
+/*
+  READ-THE-DOCS CLASS:
+  - Currently sets color to #888 (a medium gray).
+
+  TIP:
+  - If this is a link or a block of text prompting the user to read documentation, 
+    consider adding a subtle hover effect or underline for clarity.
+
+  Example:
+  .read-the-docs:hover {
+    text-decoration: underline;
+  }
+*/
 
 .read-the-docs {
   color: #888;

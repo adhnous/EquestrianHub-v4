@@ -140,55 +140,61 @@ const updateTrainer = (id, data) => api.put(`/trainers/${id}`, data);
 const deleteTrainer = (id) => api.delete(`/trainers/${id}`);
 
 // Horse endpoints - CRUD operations
-const getHorses = async () => {
-  try {
-    const response = await api.get('/horses'); // Use `api` instance
-    console.log('API Response:', response.data); // Debug log full data
-    return response.data.data; // Extract and return the `data` array
-  } catch (error) {
-    console.error('Error fetching horses:', error);
-    throw error;
-  }
-};
+// Horse endpoints - CRUD operations
+const getHorses = () => api.get('/horses');
+const getHorseById = (horseId) => api.get(`/horses/${horseId}`);
+const createHorse = (horseData) => api.post('/horses', horseData);
+const updateHorse = (horseId, horseData) => api.put(`/horses/${horseId}`, horseData);
+const deleteHorse = (horseId) => api.delete(`/horses/${horseId}`);
+// const getHorses = async () => {
+//   try {
+//     const response = await api.get('/horses'); // Use `api` instance
+//     console.log('API Response:', response.data); // Debug log full data
+//     return response.data.data; // Extract and return the `data` array
+//   } catch (error) {
+//     console.error('Error fetching horses:', error);
+//     throw error;
+//   }
+// };
 
-const fetchHorseById = async (horseId) => {
-  try {
-    const { data } = await api.get(`/horses/${horseId}`);
-    return data;
-  } catch (error) {
-    console.error('Error fetching horse:', error);
-    throw error;
-  }
-};
+// const fetchHorseById = async (horseId) => {
+//   try {
+//     const { data } = await api.get(`/horses/${horseId}`);
+//     return data;
+//   } catch (error) {
+//     console.error('Error fetching horse:', error);
+//     throw error;
+//   }
+// };
 
-const createHorse = async (horseData) => {
-  try {
-    const { data } = await api.post('/horses', horseData);
-    return data;
-  } catch (error) {
-    console.error('Error creating horse:', error);
-    throw error;
-  }
-};
+// const createHorse = async (horseData) => {
+//   try {
+//     const { data } = await api.post('/horses', horseData);
+//     return data;
+//   } catch (error) {
+//     console.error('Error creating horse:', error);
+//     throw error;
+//   }
+// };
 
-const updateHorseById = async (horseId, horseData) => {
-  try {
-    const response = await api.put(`/horses/${horseId}`, horseData);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+// const updateHorseById = async (horseId, horseData) => {
+//   try {
+//     const response = await api.put(`/horses/${horseId}`, horseData);
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
-const deleteHorseById = async (horseId) => {
-  try {
-    const response = await api.delete(`/horses/${horseId}`);
-    return response.data;
-  } catch (error) {
-    console.error(`Error deleting horse ${horseId}:`, error);
-    throw error;
-  }
-};
+// const deleteHorseById = async (horseId) => {
+//   try {
+//     const response = await api.delete(`/horses/${horseId}`);
+//     return response.data;
+//   } catch (error) {
+//     console.error(`Error deleting horse ${horseId}:`, error);
+//     throw error;
+//   }
+// };
 
 // Export CRUD operations
 
@@ -227,9 +233,9 @@ export {
   deleteTrainer,
   getHorses,
   createHorse,
-  fetchHorseById,
-  updateHorseById,
-  deleteHorseById,  
+  updateHorse,
+  deleteHorse,
+  getHorseById, 
   getProfile,
   updateProfile,
   changePassword,

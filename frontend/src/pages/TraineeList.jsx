@@ -25,11 +25,13 @@ import {
   IconButton,
   Stack,
   Paper,
+  InputAdornment,
 } from '@mui/material';
 import {
   Edit as EditIcon,
   Delete as DeleteIcon,
   Add as AddIcon,
+  Search as SearchIcon,
 } from '@mui/icons-material';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 import {
@@ -61,7 +63,7 @@ const TraineeList = () => {
   // Currently selected trainee for editing (null => "Add" mode)
   const [selectedTrainee, setSelectedTrainee] = useState(null);
 
-  // 1) Include `password` in your formData
+  // Form data (includes `password` for creating new trainees)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -77,6 +79,9 @@ const TraineeList = () => {
   });
 
   const [error, setError] = useState(null);
+
+  // --- NEW: Search state ---
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Fetch trainees
   const {
@@ -172,7 +177,6 @@ const TraineeList = () => {
           phone: '',
           relationship: '',
         },
-        // Usually, you do NOT pre-fill the password in an edit form:
         password: '',
       });
     } else {
@@ -199,6 +203,20 @@ const TraineeList = () => {
   const handleClose = () => {
     setOpen(false);
     setSelectedTrainee(null);
+    setError(null);
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      experienceLevel: 'beginner',
+      preferredDiscipline: 'western',
+      emergencyContact: {
+        name: '',
+        phone: '',
+        relationship: '',
+      },
+      password: '',
+    });
   };
 
   // Submit the form
@@ -220,6 +238,17 @@ const TraineeList = () => {
       deleteMutation.mutate(id);
     }
   };
+
+  // --- Filter trainees based on search query ---
+  // Searching by name, email, or phone:
+  const filteredTrainees = trainees.filter((trainee) => {
+    const lowerQuery = searchQuery.toLowerCase();
+    return (
+      trainee.name.toLowerCase().includes(lowerQuery) ||
+      trainee.email.toLowerCase().includes(lowerQuery) ||
+      trainee.phone.toLowerCase().includes(lowerQuery)
+    );
+  });
 
   // --- CONDITIONALS FOR LOADING / ERROR ---
   if (isLoading) {
@@ -305,9 +334,28 @@ const TraineeList = () => {
         </Box>
       </Paper>
 
+      {/* Search Bar */}
+      <Box sx={{ mb: 3 }}>
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder={t('common.searchPlaceholder') || 'Search by name, email, or phone'}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
+
       <Grid container spacing={4}>
-        {Array.isArray(trainees) && trainees.map((trainee) => (
-          <Grid item xs={12} sm={6} md={4} key={trainee._id}>
+        {/* Render filtered trainees instead of all */}
+        {Array.isArray(filteredTrainees) && filteredTrainees.map((trainee) => (
+          <Grid item key={trainee.id} sx={{ width: 350 }}>
             <Card
               sx={{
                 position: 'relative',
@@ -360,9 +408,8 @@ const TraineeList = () => {
                     <Chip
                       label={
                         trainee?.preferredDiscipline
-                          ? t(
-                              `trainee.preferredDiscipline.${trainee.preferredDiscipline}`
-                            ) || trainee.preferredDiscipline
+                          ? t(`trainee.preferredDiscipline.${trainee.preferredDiscipline}`) ||
+                            trainee.preferredDiscipline
                           : 'N/A'
                       }
                       color="secondary"
@@ -410,9 +457,11 @@ const TraineeList = () => {
           </Grid>
         ))}
 
-        {(!trainees || trainees.length === 0) && (
+        {(filteredTrainees.length === 0) && (
           <Grid item xs={12}>
-            <Alert severity="info">No trainees found</Alert>
+            <Alert severity="info">
+              {t('trainee.noTraineesFound') || 'No trainees found'}
+            </Alert>
           </Grid>
         )}
       </Grid>
@@ -524,8 +573,7 @@ const TraineeList = () => {
                     {t('trainee.preferredDiscipline.western') || 'Western'}
                   </MenuItem>
                   <MenuItem value="jumping">
-                    {t('trainee.preferredDiscipline.jumping') ||
-                      'Show Jumping'}
+                    {t('trainee.preferredDiscipline.jumping') || 'Show Jumping'}
                   </MenuItem>
                   <MenuItem value="dressage">
                     {t('trainee.preferredDiscipline.dressage') || 'Dressage'}

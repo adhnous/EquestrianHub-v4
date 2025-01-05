@@ -1,10 +1,14 @@
 {
+  
   "dashboard": {
-    "welcomeMessage": "مرحباً بك في مركز الفروسية",
+    "welcomeMessage": "نظام إدارة أكاديمية جامعة طرابلس للفروسية",
     "upcomingClasses": "الحصص القادمة",
-    "activeCompetitions": "المسابقات النشطة"
+    "activeCompetitions": "المسابقات النشطة", 
+    "introMessage": "مرحبا بك في أكاديمية جامعة طرابلس للفروسية. يمكنك العثور على الحصص التدريبية القادمة والمسابقات النشطة هنا."
   },
   "common": {
+    "none": "لا شيء",
+    "searchPlaceholder": "ابحث...",
     "relatiojnship": "العلاقة",
     "appTitle": "مركز الفروسية",
     "dashboard": "لوحة التحكم",
@@ -32,9 +36,10 @@
     "confirm": "تأكيد",
     "confirmAction": "هل أنت متأكد من المتابعة؟",
     "phone": "رقم الهاتف",
-    "status": "الحالة",
-    "active": "نشط",
-    "inactive": "غير نشط",
+    "status":{
+    "lebel": "الحالة",
+    "active": "نشط", 
+    "inactive": "غير نشط"},
     "name": "الاسم",
     "certifications": "الشهادات",
     "confirmDelete": "هل أنت متأكد من حذف هذا العنصر؟",
@@ -134,7 +139,7 @@
     "name": "كلية تقنية المعلومات"
   },
   "project": {
-    "title": "أكاديمية الفروسية",
+    "title": "نظام إدارة أكاديمية جامعة طرابلس للفروسية",
     "description": "مشروع مقدم لقسم هندسة البرمجيات لاستيفاء متطلبات درجة البكالوريوس",
     "students": "إعداد الطلاب",
     "student1": "نهال محمد المبروك الجبير - رقم القيد: 2191807474",
@@ -164,9 +169,29 @@
     "settings": "الإعدادات"
   },
   "horse": {
+    "healthUnknown": "غير معروف",
+    "editTitle":" تعديل بيانات الحصان",
+    "addTitle": "إضافة حصان جديد",
+    "nameLabel": "اسم الحصان",
+    "ageLabel": "عمر الحصان",
+    "colorLabel": "لون الحصان",
+    "genderLabel": "جنس الحصان",
+    "mare": "فرس",
+    "stallion": "فحل",
+    "gelding": "مخصي",
+    "registrationNumberLabel": "رقم التسجيل",
+    "healthStatusLabel": "الحالة الصحية",
+    "healthHealthy": "سليم",
+    "healthInjured": "مصاب",
+    "healthRecovering": "يتعافى",
+    "specialNeedsLabel": "احتياجات خاصة",
+    "trainerLabel": "المدرب",
+    "ownerLabel": "المالك",
   "title": "إدارة الخيول",
-  "management": "إدارة الخيول",
-  "addNew": "إضافة حصان جديد",
+  "breedLabel": "السلالة",  
+  "searchPlaceholder": "ابحث عن حصان...",
+  "managementTitle": "إدارة الخيول",
+  "addHorse": "إضافة حصان جديد",
   "editHorse": "تعديل الحصان",
   "name": "اسم الحصان",
   "breed": "السلالة",
@@ -241,6 +266,7 @@
     "invalidNumber": "يرجى إدخال رقم صحيح"
   },
   "trainer": {
+    "certifications": "الشهادات",
     "addTrainer": "إضافة مدرب",
     "editTrainer": "تعديل بيانات المدرب",
     "name": "الاسم",
@@ -365,7 +391,7 @@
   "prize": "الجائزة",
   "description": "الوصف",
   "status": "حالة المسابقة",
-  "statuses": {
+  "label": {
     "upcoming": "قادم",
     "ongoing": "جارٍ",
     "completed": "منتهي",
