@@ -29,6 +29,7 @@ const trainerSchema = new mongoose.Schema({
     required: true,
     enum: ['dressage', 'jumping', 'eventing', 'western', 'general']
   },
+  
   certifications: [{
     type: String
   }],

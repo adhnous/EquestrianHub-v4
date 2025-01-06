@@ -78,10 +78,10 @@ const TrainerList = () => {
     email: '',
     phone: '',
     password: '', // Only used when creating a new trainer
-    gender: 'male',
+    gender: '',
     specialization: 'general',
     certifications: [],
-    status: 'active',
+    status: '',
   });
 
   // State for the search query to filter trainers by name, email, or phone
@@ -568,121 +568,54 @@ const TrainerList = () => {
 
               {/* Trainer Gender Field */}
               <FormControl fullWidth variant="outlined">
-                <InputLabel>
-                  {(() => {
-                    const label = t('trainer.gender') || 'Gender';
-                    console.log('InputLabel trainer.gender:', label); // Debugging log
-                    return label;
-                  })()}
-                </InputLabel>
-                <Select
-                  value={formData.gender}
-                  label={t('trainer.gender') || 'Gender'}
-                  onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                >
-                  <MenuItem value="male">
-                    {t('common.gender.male') || 'Male'}
-                  </MenuItem>
-                  <MenuItem value="female">
-                    {t('common.gender.female') || 'Female'}
-                  </MenuItem>
-                </Select>
-              </FormControl>
+  <InputLabel id="specialization-label">
+    {typeof t('trainer.specialization') === 'string' ? t('trainer.specialization') : 'Specialization'}
+  </InputLabel>
+  <Select
+    labelId="specialization-label"
+    value={formData.specialization || ''}
+    label={typeof t('trainer.specialization') === 'string' ? t('trainer.specialization') : 'Specialization'}
+    onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
+  >
+    <MenuItem value="general">{t('trainer.specializations.general') || 'General'}</MenuItem>
+    <MenuItem value="dressage">{t('trainer.specializations.dressage') || 'Dressage'}</MenuItem>
+    <MenuItem value="jumping">{t('trainer.specializations.jumping') || 'Show Jumping'}</MenuItem>
+    <MenuItem value="eventing">{t('trainer.specializations.eventing') || 'Eventing'}</MenuItem>
+    <MenuItem value="western">{t('trainer.specializations.western') || 'Western'}</MenuItem>
+    <MenuItem value="endurance">{t('trainer.specializations.endurance') || 'Endurance'}</MenuItem>
+    <MenuItem value="vaulting">{t('trainer.specializations.vaulting') || 'Vaulting'}</MenuItem>
+  </Select>
+</FormControl>
 
-              {/* Trainer Specialization Field */}
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>
-                  {(() => {
-                    const label = t('trainer.specialization') || 'Specialization';
-                    console.log('InputLabel trainer.specialization:', label); // Debugging log
-                    return label;
-                  })()}
-                </InputLabel>
-                <Select
-                  value={formData.specialization}
-                  label={t('trainer.specialization') || 'Specialization'}
-                  onChange={(e) => setFormData({ ...formData, specialization: e.target.value })}
-                >
-                  <MenuItem value="general">
-                    {t('trainer.specializations.general') || 'General'}
-                  </MenuItem>
-                  <MenuItem value="dressage">
-                    {t('trainer.specializations.dressage') || 'Dressage'}
-                  </MenuItem>
-                  <MenuItem value="jumping">
-                    {t('trainer.specializations.jumping') || 'Jumping'}
-                  </MenuItem>
-                  <MenuItem value="eventing">
-                    {t('trainer.specializations.eventing') || 'Eventing'}
-                  </MenuItem>
-                  <MenuItem value="western">
-                    {t('trainer.specializations.western') || 'Western'}
-                  </MenuItem>
-                  <MenuItem value="endurance">
-                    {t('trainer.specializations.endurance') || 'Endurance'}
-                  </MenuItem>
-                  <MenuItem value="vaulting">
-                    {t('trainer.specializations.vaulting') || 'Vaulting'}
-                  </MenuItem>
-                </Select>
-              </FormControl>
+<FormControl fullWidth variant="outlined">
+  <InputLabel id="gender-label">
+    {typeof t('trainer.gender.label') === 'string' ? t('trainer.gender.label') : 'Gender'}
+  </InputLabel>
+  <Select
+    labelId="gender-label"
+    value={formData.gender || ''}
+    label={typeof t('trainer.gender.label') === 'string' ? t('trainer.gender.label') : 'Gender'}
+    onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
+  >
+    <MenuItem value="male">{t('trainer.gender.male') || 'Male'}</MenuItem>
+    <MenuItem value="female">{t('trainer.gender.female') || 'Female'}</MenuItem>
+  </Select>
+</FormControl>
 
-              {/* Trainer Status Field */}
-              <FormControl fullWidth variant="outlined">
-                <InputLabel>
-                  {(() => {
-                    const label = t('common.status') || 'Status';
-                    console.log('InputLabel common.status:', label); // Debugging log
-                    return label;
-                  })()}
-                </InputLabel>
-                <Select
-                  value={formData.status}
-                  label={t('common.status') || 'Status'}
-                  onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                >
-                  <MenuItem value="active">
-                    {t('common.active') || 'Active'}
-                  </MenuItem>
-                  <MenuItem value="inactive">
-                    {t('common.inactive') || 'Inactive'}
-                  </MenuItem>
-                </Select>
-              </FormControl>
-
-              {/* Certifications Field: Chip Input */}
-              <FormControl fullWidth variant="outlined">
-                <TextField
-                  label={t('trainer.certifications') || 'Certifications'}
-                  placeholder={t('common.certificationsPlaceholder') || 'Press Enter to add'}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && e.target.value.trim() !== '') {
-                      e.preventDefault();
-                      setFormData({
-                        ...formData,
-                        certifications: [...formData.certifications, e.target.value.trim()],
-                      });
-                      e.target.value = '';
-                    }
-                  }}
-                  variant="outlined"
-                />
-                <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mt: 1 }}>
-                  {formData.certifications.map((cert, idx) => (
-                    <Chip
-                      key={`${cert}-${idx}`} // Updated key
-                      label={cert}
-                      onDelete={() => {
-                        setFormData({
-                          ...formData,
-                          certifications: formData.certifications.filter((c) => c !== cert),
-                        });
-                      }}
-                      size="small"
-                    />
-                  ))}
-                </Stack>
-              </FormControl>
+<FormControl fullWidth variant="outlined">
+  <InputLabel id="status-label">
+    {typeof t('trainer.status') === 'string' ? t('trainer.status') : 'Status'}
+  </InputLabel>
+  <Select
+    labelId="status-label"
+    value={formData.status || ''}
+    label={typeof t('trainer.status') === 'string' ? t('trainer.status') : 'Status'}
+    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+  >
+    <MenuItem value="active">{t('trainer.statuses.active') || 'Active'}</MenuItem>
+    <MenuItem value="inactive">{t('trainer.statuses.inactive') || 'Inactive'}</MenuItem>
+  </Select>
+</FormControl>
             </Stack>
           </DialogContent>
           <DialogActions>

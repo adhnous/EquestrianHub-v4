@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 // Create a new trainer
 const createTrainer = async (req, res) => {
   try {
-    const { name, email, phone, password, specialization, certifications, availability } = req.body;
+    const { name, email, phone, password, gender, specialization, certifications, availability } = req.body;
 
     // First create a user account
     const salt = await bcrypt.genSalt(10);
@@ -28,6 +28,7 @@ const createTrainer = async (req, res) => {
       email,
       phone,
       specialization,
+      gender,
       certifications,
       availability,
       status: 'active'

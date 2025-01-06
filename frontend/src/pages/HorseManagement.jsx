@@ -689,7 +689,7 @@ const HorseManagement = () => {
                 <MenuItem value="injured">
                   {t('horse.healthInjured') || 'Injured'}
                 </MenuItem>
-                <MenuItem value="recovering">
+                <MenuItem value="recovery">
                   {t('horse.healthRecovering') || 'Recovering'}
                 </MenuItem>
                 {/* Add more health statuses as needed */}

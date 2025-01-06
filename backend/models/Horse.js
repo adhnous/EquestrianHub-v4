@@ -1,5 +1,4 @@
-const mongoose = require('mongoose')
-
+const mongoose = require('mongoose');
 
 const HorseSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -14,4 +13,5 @@ const HorseSchema = new mongoose.Schema({
   specialNeeds: { type: String },
 });
 
-module.exports = mongoose.model('Horse', HorseSchema);
+// Check if the model is already defined to prevent overwriting
+module.exports = mongoose.models.Horse || mongoose.model('Horse', HorseSchema);

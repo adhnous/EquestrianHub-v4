@@ -1,155 +1,135 @@
 const express = require('express');
 const router = express.Router();
+const Horse = require('../models/horse'); // Import the horse model
+const { 
+  authenticateToken, 
+  isAdmin 
+} = require('../middleware/authMiddleware');
 
-// Mock database
-let horses = [
-  {
-    id: '67698fd5d48032d0bc838580',
-    name: 'Spirit',
-    breed: 'quarterHorse',
-    age: 5,
-    owner: 'John Doe',
-  },
-];
+// All routes require authentication
+router.use(authenticateToken);
 
-// GET all horses
-router.get('/', (req, res) => {
+// Create a new horse (admin only)
+router.post('/', isAdmin, async (req, res) => {
   try {
-    res.status(200).json({
-      success: true,
-      data: horses,
+    const { name, breed, age, color, gender, registrationNumber, healthStatus, owner, discipline, trainingLevel, status, medicalHistory } = req.body;
+    
+    const newHorse = new Horse({
+      name,
+      breed,
+      age,
+      color,
+      gender,
+      registrationNumber,
+      healthStatus,
+      owner,
+      discipline,
+      trainingLevel,
+      status,
+      medicalHistory
     });
-  } catch (error) {
-    console.error('Error fetching horses:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error fetching horses',
-      error: error.message,
-    });
-  }
-});
 
-// GET single horse by ID
-router.get('/:id', (req, res) => {
-  try {
-    const horse = horses.find((h) => h.id === req.params.id);
-    if (!horse) {
-      return res.status(404).json({
-        success: false,
-        message: 'Horse not found',
-      });
-    }
-    res.status(200).json({
-      success: true,
-      data: horse,
-    });
-  } catch (error) {
-    console.error('Error fetching horse:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Error fetching horse',
-      error: error.message,
-    });
-  }
-});
-
-// POST create a new horse
-router.post('/', (req, res) => {
-  try {
-    const { name, breed, age, owner } = req.body;
-
-    // Validate required fields
-    if (!name || !breed || !age || !owner) {
-      return res.status(400).json({
-        success: false,
-        message: 'Name, breed, age, and owner are required fields.',
-      });
-    }
-
-    const newHorse = {
-      id: Math.random().toString(36).substr(2, 9), // Generate a unique ID
-      ...req.body,
-    };
-
-    horses.push(newHorse);
+    await newHorse.save();
     res.status(201).json({
       success: true,
-      data: newHorse,
-      message: 'Horse created successfully.',
+      data: newHorse
     });
   } catch (error) {
     console.error('Error creating horse:', error);
     res.status(500).json({
       success: false,
-      message: 'Error creating horse',
-      error: error.message,
+      message: 'Failed to create horse',
+      error: error.message
     });
   }
 });
 
-// PUT update a horse by ID
-router.put('/:id', (req, res) => {
+// Get all horses (admin only)
+router.get('/', isAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
-    const updates = req.body;
+    const horses = await Horse.find();
+    res.json({
+      success: true,
+      data: horses
+    });
+  } catch (error) {
+    console.error('Error fetching horses:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch horses',
+      error: error.message
+    });
+  }
+});
 
-    const index = horses.findIndex((h) => h.id === id);
-    if (index === -1) {
+// Get a horse by ID
+router.get('/:id', async (req, res) => {
+  try {
+    const horse = await Horse.findById(req.params.id);
+    if (!horse) {
       return res.status(404).json({
         success: false,
-        message: 'Horse not found',
+        message: 'Horse not found'
       });
     }
-
-    // Update the horse
-    horses[index] = {
-      ...horses[index],
-      ...updates,
-      id, // Ensure ID is preserved
-    };
-
-    res.status(200).json({
+    res.json({
       success: true,
-      data: horses[index],
-      message: 'Horse updated successfully.',
+      data: horse
+    });
+  } catch (error) {
+    console.error('Error fetching horse:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to fetch horse',
+      error: error.message
+    });
+  }
+});
+
+// Update a horse (admin only)
+router.put('/:id', isAdmin, async (req, res) => {
+  try {
+    const horse = await Horse.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!horse) {
+      return res.status(404).json({
+        success: false,
+        message: 'Horse not found'
+      });
+    }
+    res.json({
+      success: true,
+      data: horse
     });
   } catch (error) {
     console.error('Error updating horse:', error);
     res.status(500).json({
       success: false,
-      message: 'Error updating horse',
-      error: error.message,
+      message: 'Failed to update horse',
+      error: error.message
     });
   }
 });
 
-// DELETE a horse by ID
-router.delete('/:id', (req, res) => {
+// Delete a horse (admin only)
+router.delete('/:id', isAdmin, async (req, res) => {
   try {
-    const { id } = req.params;
-
-    const index = horses.findIndex((h) => h.id === id);
-    if (index === -1) {
+    const horse = await Horse.findByIdAndDelete(req.params.id);
+    if (!horse) {
       return res.status(404).json({
         success: false,
-        message: 'Horse not found',
+        message: 'Horse not found'
       });
     }
-
-    // Remove the horse from the array
-    const deletedHorse = horses.splice(index, 1);
-
-    res.status(200).json({
+    res.json({
       success: true,
-      data: deletedHorse[0],
-      message: 'Horse deleted successfully.',
+      message: 'Horse deleted successfully'
     });
   } catch (error) {
     console.error('Error deleting horse:', error);
     res.status(500).json({
       success: false,
-      message: 'Error deleting horse',
-      error: error.message,
+      message: 'Failed to delete horse',
+      error: error.message
     });
   }
 });
