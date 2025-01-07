@@ -20,7 +20,7 @@ import {
   Edit as EditIcon,
   Lock as LockIcon,
 } from '@mui/icons-material';
-import { getProfile, updateProfile, changePassword } from '../services/api';
+import { getProfile, updateProfile, changePassword } from '../services';
 import useAuthStore from '../store/authStore';
 import LoadingSpinner from '../components/LoadingSpinner';
 

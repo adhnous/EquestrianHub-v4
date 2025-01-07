@@ -11,7 +11,7 @@ import {
   createTrainer,
   updateTrainer,
   deleteTrainer,
-} from '../services/api';
+} from '../services';
 // Importing Material UI components
 import {
   Box,

@@ -39,7 +39,7 @@ import {
   createTrainee,
   updateTrainee,
   deleteTrainee,
-} from '../services/api';
+} from '../services';
 
 const avatarColors = [
   '#D32F2F', // Red

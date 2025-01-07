@@ -30,7 +30,7 @@ import {
   Language as LanguageIcon,
   ExitToApp as LogoutIcon,
 } from '@mui/icons-material';
-import { logout } from '../services/api';
+import { logout } from '../services';
 
 const drawerWidth = 240;
 

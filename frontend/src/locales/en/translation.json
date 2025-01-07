@@ -168,6 +168,7 @@
   "title": "Horse Management",
   "management": "Horse Management",
   "addNew": "Add New Horse",
+  "editTitle": "Edit Horse",
   "editHorse": "Edit Horse",
   "name": "Horse Name",
   "breed": "Breed",

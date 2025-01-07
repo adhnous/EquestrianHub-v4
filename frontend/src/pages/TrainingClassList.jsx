@@ -33,9 +33,13 @@ import {
   getTrainingClasses,
   createTrainingClass,
   updateTrainingClass,
-  deleteTrainingClass,
-  getTrainers,
-} from '../services/api';
+  deleteTrainingClass, } from '../services';
+  import {
+    getTrainers,
+    createTrainer,
+    updateTrainer,
+    deleteTrainer,
+  } from '../services';
 
 // Small palette of colors for Avatars
 const avatarColors = [

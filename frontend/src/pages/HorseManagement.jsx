@@ -12,7 +12,7 @@ import {
   createHorse,
   updateHorse,
   deleteHorse,
-} from '../services/api';
+} from '../services';
 
 // Importing the horse image for the CardMedia background
 import horseBackground from '../assets/images/horse-image.jpg.webp';

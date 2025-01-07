@@ -33,7 +33,7 @@ import {
   createCompetition,
   updateCompetition,
   deleteCompetition,
-} from '../services/api';
+} from '../services';
 import { format } from 'date-fns';
 
 /** Small palette for randomly assigning Avatar colors */

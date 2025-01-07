@@ -31,7 +31,7 @@ import {
   getCompetitions,
   getTrainees,
   getHorses,
-} from '../services/api';
+} from '../services';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 /**

@@ -1,13 +1,16 @@
+// src/store/authStore.js
 import { create } from 'zustand';
-import { login as apiLogin, logout as apiLogout, getStoredAuthToken } from '../services/api'; // Ensure correct imports
+import { login as apiLogin, logout as apiLogout } from '../services/authApi'; // Correct imports from authApi.js
+import { getStoredAuthToken } from '../services/api'; // Import getStoredAuthToken separately from api.js
 
 // Try to get existing auth data with error handling for malformed localStorage data
-const storedToken = localStorage.getItem('token');
+const storedToken = getStoredAuthToken(); // Using the imported getStoredAuthToken
 const storedUser = (() => {
   try {
-    return JSON.parse(localStorage.getItem('user'));
-  } catch {
-    console.error('Failed to parse stored user from localStorage');
+    const userData = localStorage.getItem('user');
+    return userData ? JSON.parse(userData) : null;
+  } catch (error) {
+    console.error('Failed to parse stored user from localStorage:', error);
     return null;
   }
 })();
@@ -33,11 +36,12 @@ const useAuthStore = create((set) => ({
       console.log('Full API Response:', response.data);
 
       // Validate response structure
-      if (!response?.data?.success || !response?.data?.token || !response?.data?.user) {
+      if (!response) {
+        console.error("Validation failed. Response data does not match expected structure:", response);
         throw new Error('Invalid response structure from server');
       }
 
-      const { success, token, user } = response.data;
+      const { success, token, user } = response;
 
       // Validate response data
       if (!success || !token || !user) {
@@ -78,7 +82,7 @@ const useAuthStore = create((set) => ({
 
   // Logout function
   logout: () => {
-    apiLogout(); // Use apiLogout (correct import)
+    apiLogout(); // Use apiLogout (correct import from authApi.js)
     localStorage.removeItem('token');
     localStorage.removeItem('user');
 

@@ -16,6 +16,8 @@ import {
   IconButton,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+// Correct: Importing via index.js
+
 import useAuthStore from '../store/authStore';
 
 const Login = () => {
@@ -42,12 +44,14 @@ const Login = () => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  console.log('Login form submitted');
   if (isLoading) {
     console.log('isLoading is true, preventing multiple submissions');
     return; // Prevent multiple submissions while loading
   }
-  console.log('Submitting login credentials');
+  console.log('Submitting login credentials:', credentials);
   try {
+    console.log("username: credentials.username", credentials.username);
     await login({
       username: credentials.username,
       password: credentials.password,
