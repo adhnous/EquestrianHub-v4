@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const traineeSchema = new mongoose.Schema({
   userId: {
@@ -14,6 +15,10 @@ const traineeSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true  // This already creates an index
+  },
+  password: {
+    type: String,
+    required: true // New field for password
   },
   phone: {
     type: String,
@@ -63,7 +68,17 @@ const traineeSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Remove the duplicate index declaration since unique: true already creates it
-// traineeSchema.index({ email: 1 }, { unique: true });
+// Hash password before saving
+traineeSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+// Add a method for password comparison
+traineeSchema.methods.comparePassword = async function (candidatePassword) {
+  return bcrypt.compare(candidatePassword, this.password);
+};
 
 module.exports = mongoose.model('Trainee', traineeSchema);

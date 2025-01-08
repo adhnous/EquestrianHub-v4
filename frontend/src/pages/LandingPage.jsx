@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Box,
@@ -13,9 +13,14 @@ import {
 const LandingPage = () => {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
+  const navigate = useNavigate(); // Use navigate for programmatic routing
 
   const handleLanguageToggle = () => {
     i18n.changeLanguage(i18n.language === 'ar' ? 'en' : 'ar');
+  };
+
+  const handleLoginRedirect = () => {
+    navigate('/login'); // Redirect to the login page
   };
 
   return (
@@ -26,7 +31,8 @@ const LandingPage = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundImage: 'url(https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80)',
+        backgroundImage:
+          'url(https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80)',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -40,8 +46,8 @@ const LandingPage = () => {
           right: 0,
           bottom: 0,
           backgroundColor: 'rgba(0, 0, 0, 0.4)',
-          zIndex: 1
-        }
+          zIndex: 1,
+        },
       }}
     >
       <Card
@@ -60,33 +66,33 @@ const LandingPage = () => {
       >
         <CardContent>
           <Box sx={{ mb: 3 }}>
-            <Typography 
-              variant="h4" 
-              component="div" 
+            <Typography
+              variant="h4"
+              component="div"
               gutterBottom
-              sx={{ 
+              sx={{
                 fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
-                fontWeight: 600
+                fontWeight: 600,
               }}
             >
               {t('university.name')}
             </Typography>
-            <Typography 
-              variant="h5" 
-              color="text.secondary" 
+            <Typography
+              variant="h5"
+              color="text.secondary"
               gutterBottom
-              sx={{ 
-                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit'
+              sx={{
+                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
               }}
             >
               {t('faculty.name')}
             </Typography>
-            <Typography 
-              variant="h6" 
-              color="text.secondary" 
+            <Typography
+              variant="h6"
+              color="text.secondary"
               gutterBottom
-              sx={{ 
-                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit'
+              sx={{
+                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
               }}
             >
               {t('project.title')}
@@ -94,50 +100,50 @@ const LandingPage = () => {
           </Box>
 
           <Box sx={{ mb: 4 }}>
-            <Typography 
-              variant="body1" 
+            <Typography
+              variant="body1"
               paragraph
-              sx={{ 
-                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit'
+              sx={{
+                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
               }}
             >
               {t('project.description')}
             </Typography>
-            <Typography 
-              variant="body2" 
+            <Typography
+              variant="body2"
               color="text.secondary"
-              sx={{ 
+              sx={{
                 fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
-                mb: 1
+                mb: 1,
               }}
             >
               {t('project.students')}
             </Typography>
-            <Typography 
-              variant="body2" 
+            <Typography
+              variant="body2"
               color="text.secondary"
-              sx={{ 
+              sx={{
                 fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
-                mb: 1
+                mb: 1,
               }}
             >
               {t('project.student1')}
             </Typography>
-            <Typography 
-              variant="body2" 
+            <Typography
+              variant="body2"
               color="text.secondary"
-              sx={{ 
+              sx={{
                 fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
-                mb: 2
+                mb: 2,
               }}
             >
               {t('project.student2')}
             </Typography>
-            <Typography 
-              variant="body2" 
+            <Typography
+              variant="body2"
               color="text.secondary"
-              sx={{ 
-                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit'
+              sx={{
+                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
               }}
             >
               {t('project.supervisor')} {t('project.supervisorName')}
@@ -148,21 +154,20 @@ const LandingPage = () => {
             <Button
               variant="outlined"
               onClick={handleLanguageToggle}
-              sx={{ 
+              sx={{
                 minWidth: 120,
-                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit'
+                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
               }}
             >
               {i18n.language === 'ar' ? 'English' : 'العربية'}
             </Button>
             <Button
-              component={Link}
-              to="/login"
               variant="contained"
               color="primary"
-              sx={{ 
+              onClick={handleLoginRedirect} // Using navigate for redirection
+              sx={{
                 minWidth: 120,
-                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit'
+                fontFamily: i18n.language === 'ar' ? 'Cairo, sans-serif' : 'inherit',
               }}
             >
               {t('auth.login')}

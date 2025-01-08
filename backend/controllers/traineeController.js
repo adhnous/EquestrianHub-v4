@@ -26,6 +26,7 @@ const createTrainee = async (req, res) => {
       userId: savedUser._id,
       name,
       email,
+      password,
       phone,
       emergencyContact,
       experienceLevel,

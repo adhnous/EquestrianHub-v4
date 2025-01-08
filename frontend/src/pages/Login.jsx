@@ -1,3 +1,4 @@
+// src/pages/Login.js
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,28 +7,31 @@ import {
   Button,
   TextField,
   Card,
+  Checkbox,
   CardContent,
   Typography,
   Alert,
+  FormControl,
   FormControlLabel,
-  Checkbox,
+  InputLabel,
+  Select,
+  MenuItem,
   CircularProgress,
   InputAdornment,
   IconButton,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-// Correct: Importing via index.js
-
 import useAuthStore from '../store/authStore';
 
 const Login = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { login, isLoading, error: authError, isAuthenticated, clearError } = useAuthStore();
+  const { login, isLoading, error: authError, isAuthenticated, clearError, user } = useAuthStore();
   const [showPassword, setShowPassword] = useState(false);
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
+    role: '',
     rememberMe: false,
   });
 
@@ -36,38 +40,62 @@ const Login = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      console.log('isAuthenticated is true, navigating to /app/dashboard');
-      navigate('/app/dashboard');
+      console.log('isAuthenticated is true, navigating to respective dashboard');
+      if (user?.role) {
+        switch (user.role) {
+          case 'admin':
+            console.log('Navigating to /app/dashboard');
+            navigate('/app/dashboard');
+            break;
+          case 'trainer':
+            console.log('Navigating to /app/trainers');
+            navigate('/app/trainers');
+            break;
+          case 'trainee':
+            console.log('Navigating to /app/trainee-dashboard');
+            navigate('/app/trainee-dashboard');
+            break;
+          default:
+            console.log('Navigating to /');
+            navigate('/');
+            break;
+        }
+      }
     }
-    return () => clearError();
-  }, [isAuthenticated, navigate, clearError]);
+    return () => {
+      console.log('Clearing auth errors');
+      clearError();
+    };
+  }, [isAuthenticated, navigate, clearError, user?.role]);
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  console.log('Login form submitted');
-  if (isLoading) {
-    console.log('isLoading is true, preventing multiple submissions');
-    return; // Prevent multiple submissions while loading
-  }
-  console.log('Submitting login credentials:', credentials);
-  try {
-    console.log("username: credentials.username", credentials.username);
-    await login({
-      username: credentials.username,
-      password: credentials.password,
-    });
-    console.log('Login successful, navigating to /app/dashboard');
-    navigate('/app/dashboard');
-  } catch (err) {
-    console.error('Login error:', err);
-  }
-};
+  const handleSubmit = async (e) => {
+    console.log('handleSubmit triggered');
+    e.preventDefault();
+    console.log('preventDefault called');
 
+    if (isLoading) {
+      console.log('isLoading is true, preventing multiple submissions');
+      return;
+    }
+
+    console.log('Submitting login credentials:', credentials);
+
+    try {
+      await login({
+        username: credentials.username,
+        password: credentials.password,
+        role: credentials.role,
+      });
+      console.log('Login function awaited successfully');
+    } catch (err) {
+      console.error('Login error caught in handleSubmit:', err);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
-    console.log(`Updating ${name} to ${value}`);
-    setCredentials(prev => ({
+    console.log(`Updating ${name} to ${name === 'rememberMe' ? checked : value}`);
+    setCredentials((prev) => ({
       ...prev,
       [name]: name === 'rememberMe' ? checked : value,
     }));
@@ -75,7 +103,7 @@ const handleSubmit = async (e) => {
 
   const handleClickShowPassword = () => {
     console.log('Toggle show password');
-    setShowPassword(!showPassword);
+    setShowPassword((prev) => !prev);
   };
 
   return (
@@ -91,6 +119,7 @@ const handleSubmit = async (e) => {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
+        position: 'relative',
         '&::before': {
           content: '""',
           position: 'absolute',
@@ -204,6 +233,19 @@ const handleSubmit = async (e) => {
                 },
               }}
             />
+            <FormControl fullWidth margin="normal" required>
+              <InputLabel>{t('auth.role')}</InputLabel>
+              <Select
+                name="role"
+                value={credentials.role}
+                onChange={handleChange}
+                label={t('auth.role')} // Added label prop for better accessibility
+              >
+                <MenuItem value="admin">{t('roles.admin')}</MenuItem>
+                <MenuItem value="trainer">{t('roles.trainer')}</MenuItem>
+                <MenuItem value="trainee">{t('roles.trainee')}</MenuItem>
+              </Select>
+            </FormControl>
             <FormControlLabel
               control={
                 <Checkbox

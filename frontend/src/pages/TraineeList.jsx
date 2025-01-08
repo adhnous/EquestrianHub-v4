@@ -241,14 +241,17 @@ const TraineeList = () => {
 
   // --- Filter trainees based on search query ---
   // Searching by name, email, or phone:
-  const filteredTrainees = trainees.filter((trainee) => {
-    const lowerQuery = searchQuery.toLowerCase();
-    return (
-      trainee.name.toLowerCase().includes(lowerQuery) ||
-      trainee.email.toLowerCase().includes(lowerQuery) ||
-      trainee.phone.toLowerCase().includes(lowerQuery)
-    );
-  });
+  const filteredTrainees = Array.isArray(trainees)
+  ? trainees.filter((trainee) => {
+      const lowerQuery = searchQuery.toLowerCase();
+      return (
+        trainee.name.toLowerCase().includes(lowerQuery) ||
+        trainee.email.toLowerCase().includes(lowerQuery) ||
+        trainee.phone.toLowerCase().includes(lowerQuery)
+      );
+    })
+  : [];
+
 
   // --- CONDITIONALS FOR LOADING / ERROR ---
   if (isLoading) {

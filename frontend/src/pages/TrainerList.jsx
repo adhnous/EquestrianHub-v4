@@ -262,14 +262,16 @@ const TrainerList = () => {
    * Filters the list of trainers based on the search query.
    * It matches the query against the trainer's name, email, or phone.
    */
-  const filteredTrainers = trainers.filter((trainer) => {
+  const filteredTrainers = Array.isArray(trainers) ? trainers.filter((trainer) => {
     const lowerCaseQuery = searchQuery.toLowerCase();
     return (
       trainer.name.toLowerCase().includes(lowerCaseQuery) ||
       trainer.email.toLowerCase().includes(lowerCaseQuery) ||
       trainer.phone.toLowerCase().includes(lowerCaseQuery)
     );
-  });
+  }) : [];
+  
+  
 
   /**
    * If the data is still loading, display a centered CircularProgress spinner.
